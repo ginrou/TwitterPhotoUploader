@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="PhotoCollectionViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="180" height="180"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="180" height="180"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="WRW-pn-hYy">
+                        <rect key="frame" x="0.0" y="0.0" width="180" height="180"/>
+                    </imageView>
+                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3hw-B2-tON">
+                        <rect key="frame" x="0.0" y="0.0" width="180" height="180"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            </view>
+            <constraints>
+                <constraint firstItem="WRW-pn-hYy" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="9Gc-IU-XFl"/>
+                <constraint firstAttribute="bottom" secondItem="WRW-pn-hYy" secondAttribute="bottom" id="CDt-q1-EMQ"/>
+                <constraint firstAttribute="bottom" secondItem="3hw-B2-tON" secondAttribute="bottom" id="XvD-on-S1v"/>
+                <constraint firstAttribute="trailing" secondItem="3hw-B2-tON" secondAttribute="trailing" id="Yml-Bf-QUm"/>
+                <constraint firstItem="WRW-pn-hYy" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="kZ7-UM-5Fw"/>
+                <constraint firstItem="3hw-B2-tON" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="nCH-Q1-ap5"/>
+                <constraint firstAttribute="trailing" secondItem="WRW-pn-hYy" secondAttribute="trailing" id="ugI-0x-y4O"/>
+                <constraint firstItem="3hw-B2-tON" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="zZb-Jf-iTf"/>
+            </constraints>
+            <size key="customSize" width="169" height="153"/>
+            <connections>
+                <outlet property="highlightOverlay" destination="3hw-B2-tON" id="SxD-mY-zcj"/>
+                <outlet property="imageView" destination="WRW-pn-hYy" id="Lhm-L4-adn"/>
+            </connections>
+            <point key="canvasLocation" x="258" y="273"/>
+        </collectionViewCell>
+    </objects>
+</document>

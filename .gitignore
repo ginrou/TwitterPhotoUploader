@@ -1,0 +1,19 @@
+# Xcode
+#
+build/
+*.pbxuser
+!default.pbxuser
+xcuserdata
+*.xccheckout
+*.moved-aside
+DerivedData
+*.hmap
+*.ipa
+*.dSYM*
+*.xcuserstate
+*.DS_Store
+
+# CocoaPods
+#
+
+Pods/

@@ -1,0 +1,56 @@
+PODS:
+  - OMGHTTPURLRQ (2.1):
+    - OMGHTTPURLRQ/RQ (= 2.1)
+  - OMGHTTPURLRQ/FormURLEncode (2.1)
+  - OMGHTTPURLRQ/RQ (2.1):
+    - OMGHTTPURLRQ/FormURLEncode
+    - OMGHTTPURLRQ/UserAgent
+  - OMGHTTPURLRQ/UserAgent (2.1)
+  - PromiseKit (1.2):
+    - PromiseKit/CALayer (= 1.2)
+    - PromiseKit/NSNotificationCenter (= 1.2)
+    - PromiseKit/NSURLConnection (= 1.2)
+    - PromiseKit/Pause (= 1.2)
+    - PromiseKit/UIActionSheet (= 1.2)
+    - PromiseKit/UIAlertView (= 1.2)
+    - PromiseKit/UIView (= 1.2)
+    - PromiseKit/UIViewController (= 1.2)
+    - PromiseKit/Until (= 1.2)
+    - PromiseKit/When (= 1.2)
+  - PromiseKit/CALayer (1.2):
+    - PromiseKit/Promise
+  - PromiseKit/NSNotificationCenter (1.2):
+    - PromiseKit/Promise
+  - PromiseKit/NSURLConnection (1.2):
+    - OMGHTTPURLRQ
+    - PromiseKit/Promise
+  - PromiseKit/Pause (1.2):
+    - PromiseKit/Promise
+  - PromiseKit/Promise (1.2)
+  - PromiseKit/UIActionSheet (1.2):
+    - PromiseKit/Promise
+  - PromiseKit/UIAlertView (1.2):
+    - PromiseKit/Promise
+  - PromiseKit/UIView (1.2):
+    - PromiseKit/Promise
+  - PromiseKit/UIViewController (1.2):
+    - PromiseKit/Promise
+  - PromiseKit/Until (1.2):
+    - PromiseKit/Promise
+    - PromiseKit/When
+  - PromiseKit/When (1.2):
+    - PromiseKit/Promise
+  - SDWebImage (3.7.1):
+    - SDWebImage/Core (= 3.7.1)
+  - SDWebImage/Core (3.7.1)
+
+DEPENDENCIES:
+  - PromiseKit
+  - SDWebImage
+
+SPEC CHECKSUMS:
+  OMGHTTPURLRQ: f8c515dfd2f57a5d74c710978f600231f52afec5
+  PromiseKit: 89cb68ff4093e71221a63ca7272d427bf34c4560
+  SDWebImage: 116e88633b5b416ea0ca4b334a4ac59cf72dd38d
+
+COCOAPODS: 0.35.0
