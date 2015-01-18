@@ -12,6 +12,7 @@ DerivedData
 *.dSYM*
 *.xcuserstate
 *.DS_Store
+BuildNumber.h
 
 # CocoaPods
 #
