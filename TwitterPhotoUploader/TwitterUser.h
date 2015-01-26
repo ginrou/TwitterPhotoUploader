@@ -15,4 +15,5 @@
 @property (nonatomic, readonly) NSURL *profileImageURL;
 
 - (instancetype)initWithDict:(NSDictionary *)dict;
+- (NSDictionary *)dictionaryRepresentation;
 @end

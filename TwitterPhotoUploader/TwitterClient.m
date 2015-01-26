@@ -70,6 +70,16 @@
     return [self performRequset:request withGrantingToAccount:account];
 }
 
++ (PMKPromise *)getUsersShowForAccounts:(NSArray *)accounts
+{
+    NSMutableArray *promieses = [NSMutableArray array];
+    for (ACAccount *account in accounts) {
+        [promieses addObject:[self getUsersShowForAccount:account screenName:account.username]];
+    }
+    return [PMKPromise all:promieses];
+}
+
+
 + (PMKPromise *)postMediaUploadForAccount:(ACAccount *)account
                                      data:(NSData *)imageData
                                  mimeType:(NSString *)mimeType
@@ -110,5 +120,14 @@
     return [self performRequset:request withGrantingToAccount:account];
 }
 
++ (PMKPromise *)getStatusesHomeTimelineForAccount:(ACAccount *)account
+                                       screenName:(NSString *)screenName
+{
+    SLRequest *request = [self requestWithMethod:SLRequestMethodGET
+                                        endpoint:@"statuses/home_timeline.json"
+                                      parameters:nil];
+
+    return [self performRequset:request withGrantingToAccount:account];
+}
 
 @end

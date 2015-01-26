@@ -23,6 +23,7 @@
 /// <- granted ACAccount
 + (PMKPromise *)retriveAccessTokenForAccount:(ACAccount *)account;
 
+/// returns Array of ACAccounts objects
 + (NSArray *)accounts;
 
 @end

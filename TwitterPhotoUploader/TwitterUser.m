@@ -27,4 +27,14 @@
     return [self.name isEqual:[(TwitterUser *)object name]];
 }
 
+- (NSDictionary *)dictionaryRepresentation
+{
+    return @{@"name": self.name,
+             @"screen_name": self.screenName,
+             @"id_str": self.userID,
+             @"profile_image_url_https": self.profileImageURL.absoluteString
+             };
+}
+
+
 @end

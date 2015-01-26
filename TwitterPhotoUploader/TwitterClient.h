@@ -19,6 +19,9 @@
 
 + (PMKPromise *)getUsersShowForAccount:(ACAccount *)account screenName:(NSString *)screenName;
 
+/// <- @[ (NSDictionary of response JSON), ...]
++ (PMKPromise *)getUsersShowForAccounts:(NSArray *)accounts;
+
 + (PMKPromise *)postMediaUploadForAccount:(ACAccount *)account
                                      data:(NSData *)imageData
                                  mimeType:(NSString *)mimeType
@@ -26,8 +29,12 @@
 
 + (PMKPromise *)postStatusUpdateForAccount:(ACAccount *)account
                                     status:(NSString *)status
-                                  mediaIDs:(NSString *)mediaIDs; // @"460938773744717825,460938773744717826"
+                                  mediaIDs:(NSString *)mediaIDs; // example: @"460938773744717825,460938773744717826"
 
 + (PMKPromise *)getStatusesUserTimelineForAccount:(ACAccount *)account
                                        screenName:(NSString *)screenName;
+
++ (PMKPromise *)getStatusesHomeTimelineForAccount:(ACAccount *)account
+                                       screenName:(NSString *)screenName;
+
 @end

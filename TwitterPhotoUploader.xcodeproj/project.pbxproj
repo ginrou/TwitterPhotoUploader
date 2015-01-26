@@ -36,6 +36,11 @@
 		54CE88B81A60A34600107C1A /* PostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 54CE88B71A60A34600107C1A /* PostViewController.m */; };
 		54CE88BB1A60A52500107C1A /* PhotoSelectionNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 54CE88BA1A60A52500107C1A /* PhotoSelectionNavigationViewController.m */; };
 		54CE88BE1A60BE4300107C1A /* PostViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 54CE88BD1A60BE4300107C1A /* PostViewModel.m */; };
+		54DF45601A6BB294004861EC /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 54DF455F1A6BB294004861EC /* HomeViewController.m */; };
+		54DF45631A6BB5D1004861EC /* AccountSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 54DF45621A6BB5D1004861EC /* AccountSelectionViewController.m */; };
+		54DF45661A6BE239004861EC /* HomeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 54DF45651A6BE239004861EC /* HomeModel.m */; };
+		54DF456A1A6BE2E0004861EC /* AccountDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 54DF45691A6BE2E0004861EC /* AccountDataStore.m */; };
+		54DF456D1A6C17F0004861EC /* SimpleTweetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 54DF456C1A6C17F0004861EC /* SimpleTweetCell.m */; };
 		CA51EB91338B3576AA5F143C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F8E72C573B6338092F55E0B /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -104,6 +109,16 @@
 		54CE88BC1A60BE4300107C1A /* PostViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostViewModel.h; sourceTree = "<group>"; };
 		54CE88BD1A60BE4300107C1A /* PostViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostViewModel.m; sourceTree = "<group>"; };
 		54DF455C1A6BAB24004861EC /* build_number.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = build_number.sh; sourceTree = "<group>"; };
+		54DF455E1A6BB294004861EC /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
+		54DF455F1A6BB294004861EC /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
+		54DF45611A6BB5D0004861EC /* AccountSelectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountSelectionViewController.h; sourceTree = "<group>"; };
+		54DF45621A6BB5D1004861EC /* AccountSelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountSelectionViewController.m; sourceTree = "<group>"; };
+		54DF45641A6BE239004861EC /* HomeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeModel.h; sourceTree = "<group>"; };
+		54DF45651A6BE239004861EC /* HomeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeModel.m; sourceTree = "<group>"; };
+		54DF45681A6BE2E0004861EC /* AccountDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountDataStore.h; sourceTree = "<group>"; };
+		54DF45691A6BE2E0004861EC /* AccountDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountDataStore.m; sourceTree = "<group>"; };
+		54DF456B1A6C17F0004861EC /* SimpleTweetCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleTweetCell.h; sourceTree = "<group>"; };
+		54DF456C1A6C17F0004861EC /* SimpleTweetCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleTweetCell.m; sourceTree = "<group>"; };
 		783011FFA8C53CC9EA7B6A4D /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		9F8E72C573B6338092F55E0B /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D60E8B458FA7F772D53C935C /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -254,6 +269,7 @@
 		54CE88811A601BC300107C1A /* TwitterPhotoUploader */ = {
 			isa = PBXGroup;
 			children = (
+				54DF45671A6BE2B5004861EC /* DataStore */,
 				5428F1DB1A6362D000C9AD4A /* 3rdParty */,
 				54CE88861A601BC300107C1A /* AppDelegate.h */,
 				54CE88871A601BC300107C1A /* AppDelegate.m */,
@@ -261,6 +277,7 @@
 				54CE888F1A601BC300107C1A /* Images.xcassets */,
 				54CE88911A601BC300107C1A /* LaunchScreen.xib */,
 				54CE888C1A601BC300107C1A /* Main.storyboard */,
+				54DF455D1A6BB27B004861EC /* Home */,
 				5428F1BE1A62007800C9AD4A /* Photo */,
 				5428F1BF1A6200A600C9AD4A /* Post */,
 				54CE88821A601BC300107C1A /* Supporting Files */,
@@ -300,6 +317,30 @@
 				54CE889D1A601BC300107C1A /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		54DF455D1A6BB27B004861EC /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				54DF455E1A6BB294004861EC /* HomeViewController.h */,
+				54DF455F1A6BB294004861EC /* HomeViewController.m */,
+				54DF45611A6BB5D0004861EC /* AccountSelectionViewController.h */,
+				54DF45621A6BB5D1004861EC /* AccountSelectionViewController.m */,
+				54DF45641A6BE239004861EC /* HomeModel.h */,
+				54DF45651A6BE239004861EC /* HomeModel.m */,
+				54DF456B1A6C17F0004861EC /* SimpleTweetCell.h */,
+				54DF456C1A6C17F0004861EC /* SimpleTweetCell.m */,
+			);
+			name = Home;
+			sourceTree = "<group>";
+		};
+		54DF45671A6BE2B5004861EC /* DataStore */ = {
+			isa = PBXGroup;
+			children = (
+				54DF45681A6BE2E0004861EC /* AccountDataStore.h */,
+				54DF45691A6BE2E0004861EC /* AccountDataStore.m */,
+			);
+			name = DataStore;
 			sourceTree = "<group>";
 		};
 		B47333E371B022DB6F0BAF07 /* Frameworks */ = {
@@ -496,18 +537,23 @@
 				54CE88BB1A60A52500107C1A /* PhotoSelectionNavigationViewController.m in Sources */,
 				5428F1D21A62A4DA00C9AD4A /* WelcomeViewController.m in Sources */,
 				5428F1EE1A63A06B00C9AD4A /* TwitterPhoto.m in Sources */,
+				54DF45661A6BE239004861EC /* HomeModel.m in Sources */,
 				5428F1EB1A6382C000C9AD4A /* Tweet.m in Sources */,
 				54CE88851A601BC300107C1A /* main.m in Sources */,
+				54DF45631A6BB5D1004861EC /* AccountSelectionViewController.m in Sources */,
 				54CE88B51A603F1200107C1A /* LocalImage.m in Sources */,
 				5428F1C71A6201FB00C9AD4A /* TwitterAccount.m in Sources */,
 				54CE88B81A60A34600107C1A /* PostViewController.m in Sources */,
+				54DF456D1A6C17F0004861EC /* SimpleTweetCell.m in Sources */,
 				5428F1CE1A62994300C9AD4A /* TwitterUserView.m in Sources */,
 				5428F1E61A63813900C9AD4A /* TweetDetailViewController.m in Sources */,
 				5428F1DE1A6362FF00C9AD4A /* SDNetworkActivityIndicator.m in Sources */,
 				5428F1CB1A6296AE00C9AD4A /* TwitterUser.m in Sources */,
+				54DF45601A6BB294004861EC /* HomeViewController.m in Sources */,
 				54CE88B21A602CCC00107C1A /* AlbumPhotoDataSource.m in Sources */,
 				5428F1E11A63808600C9AD4A /* PostResultViewController.m in Sources */,
 				54CE88AE1A602B6900107C1A /* PhotoCollectionViewCell.m in Sources */,
+				54DF456A1A6BE2E0004861EC /* AccountDataStore.m in Sources */,
 				54CE88AA1A6021A700107C1A /* PhotoSelectViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

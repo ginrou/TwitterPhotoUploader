@@ -11,12 +11,19 @@
 #import "WelcomeViewController.h"
 
 #import "TwitterAccount.h"
+#import "TwitterUserView.h"
+#import "AccountDataStore.h"
+#import "TwitterClient.h"
 
-@interface WelcomeViewController ()
+@interface WelcomeViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *useTwitterButton;
 @property (weak, nonatomic) IBOutlet UILabel *twitterStatusLabel;
 @property (weak, nonatomic) IBOutlet UIButton *usePhotoButton;
 @property (weak, nonatomic) IBOutlet UILabel *photoStatusLabel;
+
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) NSArray *accounts;
+@property (assign, nonatomic) NSInteger previousSelectedIndex;
 
 @property (copy, nonatomic) void (^onComplete)(BOOL rootViewControllerChanged);
 @end
@@ -40,6 +47,7 @@
 {
     if ([TwitterAccount isGrantedForService] == NO) return NO;
     if ([TwitterAccount isAccountRegistered] == NO) return NO;
+    if ([AccountDataStore defaultAccountSet] == NO) return NO;
     if ([PHPhotoLibrary authorizationStatus] != PHAuthorizationStatusAuthorized) return NO;
 
     return YES;
@@ -52,6 +60,7 @@
     self.usePhotoButton.enabled = [PHPhotoLibrary authorizationStatus] == PHAuthorizationStatusNotDetermined;
     [self updateTwitterStatusLabel];
     [self updatePhotoStatusLabel];
+    [self loadTwitterAccounts];
 
     if ([TwitterAccount isGrantedForService]) {
         [[NSNotificationCenter defaultCenter] addObserver:self
@@ -107,6 +116,7 @@
     .then(^(id arg){
         [self updateTwitterStatusLabel];
         [self check];
+        [self loadTwitterAccounts];
     });
 }
 
@@ -123,6 +133,55 @@
 - (void)twitterAccountStatusChanged:(NSNotification *)noti
 {
     [self updateTwitterStatusLabel];
+    [self check];
+    [self loadTwitterAccounts];
+}
+
+- (void)loadTwitterAccounts
+{
+    NSArray *accounts = [TwitterAccount accounts];
+    if (accounts.count == 0) return;
+
+    [TwitterClient getUsersShowForAccounts:accounts]
+    .then(^(NSArray *responses){
+
+        NSMutableArray *array = [NSMutableArray array];
+        for (NSDictionary *json in responses) {
+            TwitterUser *user = [[TwitterUser alloc] initWithDict:json];
+            [array addObject:user];
+        }
+
+        self.accounts = array;
+        [self.tableView reloadData];
+    });
+}
+
+#pragma mark TableView
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return self.accounts.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    TwitterUserView *userView = (TwitterUserView *)[cell.contentView viewWithTag:1];
+    [userView setUser:self.accounts[indexPath.row]];
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+
+    UITableViewCell *previousCell = [tableView cellForRowAtIndexPath:indexPath];
+    previousCell.accessoryType = UITableViewCellAccessoryNone;
+
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    cell.accessoryType = UITableViewCellAccessoryCheckmark;
+
+    self.previousSelectedIndex = indexPath.row;
+    [AccountDataStore saveDefaultTwitterAccount:self.accounts[indexPath.row]];
     [self check];
 }
 
