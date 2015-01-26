@@ -37,7 +37,6 @@
 
         _timeLineType = HomeModelHomeTimeLine;
         _tweets = [NSMutableArray array];
-        [self retriveTweetsFromServer];
     }
     return self;
 }
@@ -73,7 +72,7 @@
             break;
         case HomeModelUserTimeLine:
             return [TwitterClient getStatusesUserTimelineForAccount:self.loginAccount
-                                                         screenName:self.loginUser.userID];
+                                                         screenName:self.loginUser.screenName];
             break;
     }
     return nil;

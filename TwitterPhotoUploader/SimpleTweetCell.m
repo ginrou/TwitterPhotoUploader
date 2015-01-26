@@ -8,23 +8,27 @@
 
 #import "SimpleTweetCell.h"
 #import "TwitterUserView.h"
+#import <SDWebImage/UIButton+WebCache.h>
 
 @interface SimpleTweetCell ()
 @property (weak, nonatomic) IBOutlet TwitterUserView *userView;
 @property (weak, nonatomic) IBOutlet UILabel *bodyLabel;
+@property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *imageButtons;
+
 
 @end
 
 @implementation SimpleTweetCell
 
 - (void)awakeFromNib {
-    // Initialization code
+
 }
 
 - (void)setTweet:(Tweet *)tweet
 {
     if (tweet != _tweet) {
         _tweet = tweet;
+
         [self setNeedsLayout];
     }
 }
@@ -40,8 +44,17 @@
     [super layoutSubviews];
     self.userView.user = self.tweet.user;
     self.bodyLabel.text = self.tweet.text;
-    //self.imageHeightConstraint.constant = 70 * (1+self.tweet.mediaList.count);
 
+    for (int i = 0; i < self.imageButtons.count; ++i) {
+        UIButton *imageButton = self.imageButtons[i];
+        TwitterPhoto *photo = self.tweet.mediaList[i];
+        [imageButton sd_setBackgroundImageWithURL:photo.mediaURLorig
+                                         forState:UIControlStateNormal];
+    }
+
+}
+- (IBAction)imageButtonTapped:(id)sender {
+    NSLog(@"%@", sender);
 }
 
 @end

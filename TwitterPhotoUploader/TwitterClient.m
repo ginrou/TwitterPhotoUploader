@@ -25,8 +25,41 @@
         if (error) {
             rejecter(error);
         } else {
-            NSDictionary *json = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:nil];
-            fulfiller(PMKManifold(json, urlResponse));
+            id json = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:nil];
+
+            if ([json respondsToSelector:@selector(objectForKey:)]) { // NSDictionary
+
+                if (json[@"errors"] || json[@"error"]) {
+                    NSError *jsonError = [NSError errorWithDomain:@"NEED_IMPL"
+                                                             code:0
+                                                         userInfo:@{@"response_json": json}];
+                    rejecter(jsonError);
+                } else {
+                    fulfiller(PMKManifold(json, urlResponse));
+                }
+
+                return;
+            }
+
+            if ([json respondsToSelector:@selector(objectAtIndex:)]) { // NSArray
+
+                if (json[0][@"errors"] || json[0][@"error"]) {
+                    NSError *jsonError = [NSError errorWithDomain:@"NEED_IMPL"
+                                                             code:0
+                                                         userInfo:@{@"response_json": json}];
+                    rejecter(jsonError);
+                } else {
+                    fulfiller(PMKManifold(json, urlResponse));
+                }
+
+                return;
+            }
+
+            NSError *invalidFormat = [NSError errorWithDomain:@"NEED_IMPL"
+                                                         code:0
+                                                     userInfo:nil];
+            rejecter(invalidFormat);
+
         }
     }];
 }

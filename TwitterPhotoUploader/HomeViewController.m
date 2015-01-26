@@ -30,6 +30,7 @@ UITableViewDelegate
 
     self.homeModel = [[HomeModel alloc] init];
     self.homeModel.delegate = self;
+    [self.homeModel switchTimeLineType:HomeModelHomeTimeLine];
 
     [[SDWebImageManager sharedManager] downloadImageWithURL:self.homeModel.loginUser.profileImageURL options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
 
@@ -81,8 +82,23 @@ UITableViewDelegate
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    SimpleTweetCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TweetCell"];
-    cell.tweet = [self.homeModel tweetAtIndex:indexPath.row];
+    Tweet *tweet = [self.homeModel tweetAtIndex:indexPath.row];
+    SimpleTweetCell *cell;
+
+    switch (tweet.mediaList.count) {
+        case 0:
+            cell = [tableView dequeueReusableCellWithIdentifier:@"TweetCell"];
+            break;
+        case 1:
+            cell = [tableView dequeueReusableCellWithIdentifier:@"TweetCell_1img"];
+            break;
+        default:
+            cell = [tableView dequeueReusableCellWithIdentifier:@"TweetCell_1img"];
+            break;
+    }
+
+
+    cell.tweet = tweet;
     [cell layoutIfNeeded];
     return cell;
 }
@@ -95,7 +111,8 @@ UITableViewDelegate
 }
 
 - (IBAction)segmentedControlValueChanged:(UISegmentedControl *)sender {
-    NSLog(@"%ld", sender.selectedSegmentIndex);
+    HomeModelTimeLineType timelineType = sender.selectedSegmentIndex;
+    [self.homeModel switchTimeLineType:timelineType];
 }
 
 @end
