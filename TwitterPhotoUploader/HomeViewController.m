@@ -13,8 +13,11 @@
 #import "HomeModel.h"
 #import "SimpleTweetCell.h"
 
+#import "ImageViewer.h"
+
 @interface HomeViewController () <
 HomeModelDelegate,
+SimpleTweetCellDelegate,
 UITableViewDataSource,
 UITableViewDelegate
 >
@@ -97,10 +100,32 @@ UITableViewDelegate
             break;
     }
 
-
     cell.tweet = tweet;
+    cell.delegate = self;
     [cell layoutIfNeeded];
     return cell;
+}
+
+#pragma mark - CellDelegate
+- (void)simpleTweetCell:(SimpleTweetCell *)sender imageTapped:(TwitterPhoto *)tappedPhoto
+{
+    [[SDWebImageManager sharedManager] downloadImageWithURL:tappedPhoto.mediaURLorig options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+
+        if (!finished) return ;
+
+        NSMutableArray *images = [NSMutableArray array];
+        for (int i = 0; i < 4; ++i) {
+            [images addObject:[image copy]];
+        }
+
+        ImageViewer *imageViewer = [self.storyboard instantiateViewControllerWithIdentifier:@"ImageViewer"];
+        imageViewer.images = images;
+
+        [self presentViewController:imageViewer animated:YES completion:nil];
+
+    }];
+
+
 }
 
 #pragma mark - User Interactions

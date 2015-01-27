@@ -10,6 +10,13 @@
 
 #import "Tweet.h"
 
+@protocol SimpleTweetCellDelegate;
+
 @interface SimpleTweetCell : UITableViewCell
+@property (nonatomic, weak) id<SimpleTweetCellDelegate> delegate;
 @property (nonatomic, strong) Tweet *tweet;
+@end
+
+@protocol SimpleTweetCellDelegate <NSObject>
+- (void)simpleTweetCell:(SimpleTweetCell *)sender imageTapped:(TwitterPhoto *)tappedPhoto;
 @end

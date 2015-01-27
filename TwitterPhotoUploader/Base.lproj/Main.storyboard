@@ -664,7 +664,71 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AIj-n2-4Mp" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="hf9-8O-c3u" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-1030" y="1649"/>
+            <point key="canvasLocation" x="-1030" y="1628"/>
+        </scene>
+        <!--Image Viewer-->
+        <scene sceneID="EOe-2m-2gg">
+            <objects>
+                <collectionViewController storyboardIdentifier="ImageViewer" id="JXj-mg-G9o" customClass="ImageViewer" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" dataMode="prototypes" id="ug5-WI-YTV">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="Kgq-du-tVI">
+                            <size key="itemSize" width="500" height="500"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <cells>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ImageViewerCell" id="obw-jE-TId" customClass="ImageViewerCell">
+                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="500" height="500"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" maximumZoomScale="4" translatesAutoresizingMaskIntoConstraints="NO" id="M0N-iI-SeI">
+                                            <rect key="frame" x="0.0" y="0.0" width="500" height="500"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7di-1V-aV5">
+                                                    <rect key="frame" x="0.0" y="0.0" width="500" height="500"/>
+                                                </imageView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="7di-1V-aV5" secondAttribute="bottom" id="GsA-C8-aVn"/>
+                                                <constraint firstItem="7di-1V-aV5" firstAttribute="width" secondItem="M0N-iI-SeI" secondAttribute="width" id="GzB-Cw-h7W"/>
+                                                <constraint firstAttribute="centerX" secondItem="7di-1V-aV5" secondAttribute="centerX" id="Spy-Ar-78a"/>
+                                                <constraint firstAttribute="trailing" secondItem="7di-1V-aV5" secondAttribute="trailing" id="Xf9-D2-Imf"/>
+                                                <constraint firstItem="7di-1V-aV5" firstAttribute="top" secondItem="M0N-iI-SeI" secondAttribute="top" id="eKY-ns-Pp3"/>
+                                                <constraint firstItem="7di-1V-aV5" firstAttribute="leading" secondItem="M0N-iI-SeI" secondAttribute="leading" id="nKK-kC-22F"/>
+                                                <constraint firstAttribute="centerY" secondItem="7di-1V-aV5" secondAttribute="centerY" id="q1O-zP-BoV"/>
+                                                <constraint firstItem="7di-1V-aV5" firstAttribute="height" secondItem="M0N-iI-SeI" secondAttribute="height" id="xrY-eB-4E1"/>
+                                            </constraints>
+                                        </scrollView>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="M0N-iI-SeI" secondAttribute="bottom" id="Ph6-UV-mcA"/>
+                                    <constraint firstItem="M0N-iI-SeI" firstAttribute="top" secondItem="obw-jE-TId" secondAttribute="top" id="ge6-0X-eeo"/>
+                                    <constraint firstItem="M0N-iI-SeI" firstAttribute="leading" secondItem="obw-jE-TId" secondAttribute="leading" id="k9r-ae-2l9"/>
+                                    <constraint firstAttribute="trailing" secondItem="M0N-iI-SeI" secondAttribute="trailing" id="vjy-yL-eT8"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="imageView" destination="7di-1V-aV5" id="Ikk-xR-yTN"/>
+                                    <outlet property="scrollView" destination="M0N-iI-SeI" id="2Cg-9x-yMH"/>
+                                </connections>
+                            </collectionViewCell>
+                        </cells>
+                        <connections>
+                            <outlet property="dataSource" destination="JXj-mg-G9o" id="9s1-8f-dSf"/>
+                            <outlet property="delegate" destination="JXj-mg-G9o" id="2xN-No-Nsh"/>
+                        </connections>
+                    </collectionView>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UWo-p1-00i" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-242" y="1628"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="uX0-EH-7gg">

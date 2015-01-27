@@ -54,7 +54,12 @@
 
 }
 - (IBAction)imageButtonTapped:(id)sender {
-    NSLog(@"%@", sender);
+    NSInteger selectedIndex = [self.imageButtons indexOfObject:sender];
+    if (selectedIndex != NSNotFound) {
+        TwitterPhoto *photo = self.tweet.mediaList[selectedIndex];
+        [self.delegate simpleTweetCell:self imageTapped:photo];
+    }
+
 }
 
 @end

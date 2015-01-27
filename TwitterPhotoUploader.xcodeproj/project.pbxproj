@@ -21,6 +21,7 @@
 		5428F1E71A63813900C9AD4A /* TweetDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5428F1E51A63813900C9AD4A /* TweetDetailViewController.xib */; };
 		5428F1EB1A6382C000C9AD4A /* Tweet.m in Sources */ = {isa = PBXBuildFile; fileRef = 5428F1EA1A6382C000C9AD4A /* Tweet.m */; };
 		5428F1EE1A63A06B00C9AD4A /* TwitterPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 5428F1ED1A63A06B00C9AD4A /* TwitterPhoto.m */; };
+		54A67C1B1A76A4800005A8F9 /* ImageViewer.m in Sources */ = {isa = PBXBuildFile; fileRef = 54A67C1A1A76A4800005A8F9 /* ImageViewer.m */; };
 		54CE88851A601BC300107C1A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 54CE88841A601BC300107C1A /* main.m */; };
 		54CE88881A601BC300107C1A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 54CE88871A601BC300107C1A /* AppDelegate.m */; };
 		54CE888B1A601BC300107C1A /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 54CE888A1A601BC300107C1A /* ViewController.m */; };
@@ -80,6 +81,8 @@
 		5428F1EA1A6382C000C9AD4A /* Tweet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tweet.m; sourceTree = "<group>"; };
 		5428F1EC1A63A06B00C9AD4A /* TwitterPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwitterPhoto.h; sourceTree = "<group>"; };
 		5428F1ED1A63A06B00C9AD4A /* TwitterPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TwitterPhoto.m; sourceTree = "<group>"; };
+		54A67C191A76A4800005A8F9 /* ImageViewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageViewer.h; sourceTree = "<group>"; };
+		54A67C1A1A76A4800005A8F9 /* ImageViewer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageViewer.m; sourceTree = "<group>"; };
 		54CE887F1A601BC300107C1A /* TwitterPhotoUploader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TwitterPhotoUploader.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		54CE88831A601BC300107C1A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		54CE88841A601BC300107C1A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -246,6 +249,15 @@
 			name = Tweet;
 			sourceTree = "<group>";
 		};
+		54A67C181A76A4610005A8F9 /* ImageViewer */ = {
+			isa = PBXGroup;
+			children = (
+				54A67C191A76A4800005A8F9 /* ImageViewer.h */,
+				54A67C1A1A76A4800005A8F9 /* ImageViewer.m */,
+			);
+			name = ImageViewer;
+			sourceTree = "<group>";
+		};
 		54CE88761A601BC300107C1A = {
 			isa = PBXGroup;
 			children = (
@@ -269,6 +281,7 @@
 		54CE88811A601BC300107C1A /* TwitterPhotoUploader */ = {
 			isa = PBXGroup;
 			children = (
+				54A67C181A76A4610005A8F9 /* ImageViewer */,
 				54DF45671A6BE2B5004861EC /* DataStore */,
 				5428F1DB1A6362D000C9AD4A /* 3rdParty */,
 				54CE88861A601BC300107C1A /* AppDelegate.h */,
@@ -552,6 +565,7 @@
 				54DF45601A6BB294004861EC /* HomeViewController.m in Sources */,
 				54CE88B21A602CCC00107C1A /* AlbumPhotoDataSource.m in Sources */,
 				5428F1E11A63808600C9AD4A /* PostResultViewController.m in Sources */,
+				54A67C1B1A76A4800005A8F9 /* ImageViewer.m in Sources */,
 				54CE88AE1A602B6900107C1A /* PhotoCollectionViewCell.m in Sources */,
 				54DF456A1A6BE2E0004861EC /* AccountDataStore.m in Sources */,
 				54CE88AA1A6021A700107C1A /* PhotoSelectViewController.m in Sources */,
