@@ -95,6 +95,15 @@ UITableViewDelegate
         case 1:
             cell = [tableView dequeueReusableCellWithIdentifier:@"TweetCell_1img"];
             break;
+        case 2:
+            cell = [tableView dequeueReusableCellWithIdentifier:@"TweetCell_2img"];
+            break;
+        case 3:
+            cell = [tableView dequeueReusableCellWithIdentifier:@"TweetCell_2img"];
+            break;
+        case 4:
+            cell = [tableView dequeueReusableCellWithIdentifier:@"TweetCell_2img"];
+            break;
         default:
             cell = [tableView dequeueReusableCellWithIdentifier:@"TweetCell_1img"];
             break;
@@ -102,6 +111,10 @@ UITableViewDelegate
 
     cell.tweet = tweet;
     cell.delegate = self;
+
+    [cell setNeedsUpdateConstraints];
+    [cell updateConstraintsIfNeeded];
+    [cell setNeedsLayout];
     [cell layoutIfNeeded];
     return cell;
 }
