@@ -47,6 +47,12 @@ UITableViewDelegate
 
     self.tableView.estimatedRowHeight = 100;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
+
+    [self.tableView registerNib:[UINib nibWithNibName:@"SimpleTweetCell_0img" bundle:nil]
+         forCellReuseIdentifier:@"SimpleTweetCell_0img"];
+    [self.tableView registerNib:[UINib nibWithNibName:@"SimpleTweetCell_1img" bundle:nil]
+         forCellReuseIdentifier:@"SimpleTweetCell_1img"];
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -86,28 +92,32 @@ UITableViewDelegate
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     Tweet *tweet = [self.homeModel tweetAtIndex:indexPath.row];
-    SimpleTweetCell *cell;
+    SimpleTweetCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SimpleTweetCell_0img"];
 
-    switch (tweet.mediaList.count) {
-        case 0:
-            cell = [tableView dequeueReusableCellWithIdentifier:@"TweetCell"];
-            break;
-        case 1:
-            cell = [tableView dequeueReusableCellWithIdentifier:@"TweetCell_1img"];
-            break;
-        case 2:
-            cell = [tableView dequeueReusableCellWithIdentifier:@"TweetCell_2img"];
-            break;
-        case 3:
-            cell = [tableView dequeueReusableCellWithIdentifier:@"TweetCell_2img"];
-            break;
-        case 4:
-            cell = [tableView dequeueReusableCellWithIdentifier:@"TweetCell_2img"];
-            break;
-        default:
-            cell = [tableView dequeueReusableCellWithIdentifier:@"TweetCell_1img"];
-            break;
+    if (tweet.mediaList.count > 0) {
+        cell = [tableView dequeueReusableCellWithIdentifier:@"SimpleTweetCell_1img"];
     }
+
+//    switch (tweet.mediaList.count) {
+//        case 0:
+//            cell = [tableView dequeueReusableCellWithIdentifier:@"TweetCell"];
+//            break;
+//        case 1:
+//            cell = [tableView dequeueReusableCellWithIdentifier:@"TweetCell_1img"];
+//            break;
+//        case 2:
+//            cell = [tableView dequeueReusableCellWithIdentifier:@"TweetCell_2img"];
+//            break;
+//        case 3:
+//            cell = [tableView dequeueReusableCellWithIdentifier:@"TweetCell_2img"];
+//            break;
+//        case 4:
+//            cell = [tableView dequeueReusableCellWithIdentifier:@"TweetCell_2img"];
+//            break;
+//        default:
+//            cell = [tableView dequeueReusableCellWithIdentifier:@"TweetCell_1img"];
+//            break;
+//    }
 
     cell.tweet = tweet;
     cell.delegate = self;

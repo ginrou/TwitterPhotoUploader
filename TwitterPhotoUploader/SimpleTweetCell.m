@@ -50,6 +50,14 @@
         TwitterPhoto *photo = self.tweet.mediaList[i];
         [imageButton sd_setBackgroundImageWithURL:photo.mediaURLorig
                                          forState:UIControlStateNormal];
+
+        for (UIView *view in imageButton.subviews) {
+            if ([view isKindOfClass:[UIImageView class]]) {
+                view.contentMode = UIViewContentModeScaleAspectFill;
+            }
+        }
+
+
     }
 
 }
