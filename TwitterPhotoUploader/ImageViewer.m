@@ -11,6 +11,12 @@
 @interface ImageViewerCell : UICollectionViewCell <UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
+@property (weak, nonatomic) IBOutlet UILabel *label;
+
+/// 非同期でデータを取ってきた時に不整合が起きるのを防ぐためのキー
+@property (assign, nonatomic) NSUInteger rowKey;
+
+- (void)setImage:(UIImage *)image description:(NSString *)description;
 
 @end
 
@@ -20,11 +26,40 @@
     [super awakeFromNib];
     self.scrollView.delegate = self;
 
+    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                            action:@selector(singleTapped:)];
+    singleTap.numberOfTapsRequired = 1;
+
+    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                action:@selector(doubleTapped:)];
+    doubleTap.numberOfTapsRequired = 2;
+    [singleTap requireGestureRecognizerToFail:doubleTap];
+
+    [self.scrollView addGestureRecognizer:singleTap];
+    [self.scrollView addGestureRecognizer:doubleTap];
 }
 
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
 {
     return self.imageView;
+}
+
+- (void)singleTapped:(UITapGestureRecognizer *)sender
+{
+    
+}
+
+- (void)doubleTapped:(UITapGestureRecognizer *)sender
+{
+
+}
+
+- (void)setImage:(UIImage *)image
+     description:(NSString *)description
+{
+    self.imageView.image = image;
+    self.label.text = description;
+    [self setNeedsLayout];
 }
 
 @end
@@ -47,20 +82,35 @@ static NSString * const reuseIdentifier = @"ImageViewerCell";
     self.clearsSelectionOnViewWillAppear = YES;
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    NSLog(@"%@", self.navigationController);
+    UINavigationItem *item = self.navigationItem;
+    NSLog(@"%@", self.navigationItem);
+    NSLog(@"%@", self.navigationItem.leftBarButtonItems);
+    NSLog(@"%@", self.navigationItem.rightBarButtonItems);
+
+    UINavigationBar *navigationBar = self.navigationController.navigationBar;
+    navigationBar.translucent = YES;
+    navigationBar.tintColor = [UIColor redColor];
+
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
 /*
-#pragma mark - Navigation
+ #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 #pragma mark Rotation
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
@@ -76,16 +126,22 @@ static NSString * const reuseIdentifier = @"ImageViewerCell";
 }
 
 
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.images.count;
+- (NSInteger)collectionView:(UICollectionView *)collectionView
+     numberOfItemsInSection:(NSInteger)section {
+    return [self.dataSource imageViewerNumberOfImages:self];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     ImageViewerCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier
                                                                       forIndexPath:indexPath];
-    cell.imageView.image = self.images[indexPath.row];
-    [cell setNeedsLayout];
-    [cell layoutIfNeeded];
+    cell.rowKey = indexPath.row;
+
+    [self.dataSource imageViewer:self contentsAtIndex:indexPath.row callback:^(NSInteger rowKey, NSString *description, UIImage *image) {
+        if (cell.rowKey != rowKey) return;
+        [cell setImage:image description:description];
+        [cell layoutIfNeeded];
+    }];
+
     return cell;
 }
 
@@ -94,39 +150,37 @@ static NSString * const reuseIdentifier = @"ImageViewerCell";
                   layout:(UICollectionViewLayout *)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"%@", indexPath);
     return self.view.bounds.size;
 }
 
-#pragma mark <UICollectionViewDelegate>
 
 /*
-// Uncomment this method to specify if the specified item should be highlighted during tracking
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
+ // Uncomment this method to specify if the specified item should be highlighted during tracking
+ - (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
 	return YES;
-}
-*/
+ }
+ */
 
 /*
-// Uncomment this method to specify if the specified item should be selected
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
-}
-*/
+ // Uncomment this method to specify if the specified item should be selected
+ - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+ return YES;
+ }
+ */
 
 /*
-// Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldShowMenuForItemAtIndexPath:(NSIndexPath *)indexPath {
+ // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
+ - (BOOL)collectionView:(UICollectionView *)collectionView shouldShowMenuForItemAtIndexPath:(NSIndexPath *)indexPath {
 	return NO;
-}
+ }
 
-- (BOOL)collectionView:(UICollectionView *)collectionView canPerformAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
+ - (BOOL)collectionView:(UICollectionView *)collectionView canPerformAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
 	return NO;
-}
+ }
 
-- (void)collectionView:(UICollectionView *)collectionView performAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-	
-}
-*/
+ - (void)collectionView:(UICollectionView *)collectionView performAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
+
+ }
+ */
 
 @end

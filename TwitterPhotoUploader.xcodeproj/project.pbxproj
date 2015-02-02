@@ -24,6 +24,7 @@
 		54A67C1B1A76A4800005A8F9 /* ImageViewer.m in Sources */ = {isa = PBXBuildFile; fileRef = 54A67C1A1A76A4800005A8F9 /* ImageViewer.m */; };
 		54A67C1D1A7F49650005A8F9 /* SimpleTweetCell_2img.xib in Resources */ = {isa = PBXBuildFile; fileRef = 54A67C1C1A7F49650005A8F9 /* SimpleTweetCell_2img.xib */; };
 		54A67C1F1A7F4B8E0005A8F9 /* SimpleTweetCell_4img.xib in Resources */ = {isa = PBXBuildFile; fileRef = 54A67C1E1A7F4B8E0005A8F9 /* SimpleTweetCell_4img.xib */; };
+		54A67C221A7F5E240005A8F9 /* ImageViewerTweetDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 54A67C211A7F5E240005A8F9 /* ImageViewerTweetDataSource.m */; };
 		54CE88851A601BC300107C1A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 54CE88841A601BC300107C1A /* main.m */; };
 		54CE88881A601BC300107C1A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 54CE88871A601BC300107C1A /* AppDelegate.m */; };
 		54CE888B1A601BC300107C1A /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 54CE888A1A601BC300107C1A /* ViewController.m */; };
@@ -89,6 +90,8 @@
 		54A67C1A1A76A4800005A8F9 /* ImageViewer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageViewer.m; sourceTree = "<group>"; };
 		54A67C1C1A7F49650005A8F9 /* SimpleTweetCell_2img.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SimpleTweetCell_2img.xib; sourceTree = "<group>"; };
 		54A67C1E1A7F4B8E0005A8F9 /* SimpleTweetCell_4img.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SimpleTweetCell_4img.xib; sourceTree = "<group>"; };
+		54A67C201A7F5E240005A8F9 /* ImageViewerTweetDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageViewerTweetDataSource.h; sourceTree = "<group>"; };
+		54A67C211A7F5E240005A8F9 /* ImageViewerTweetDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageViewerTweetDataSource.m; sourceTree = "<group>"; };
 		54CE887F1A601BC300107C1A /* TwitterPhotoUploader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TwitterPhotoUploader.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		54CE88831A601BC300107C1A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		54CE88841A601BC300107C1A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -262,6 +265,8 @@
 			children = (
 				54A67C191A76A4800005A8F9 /* ImageViewer.h */,
 				54A67C1A1A76A4800005A8F9 /* ImageViewer.m */,
+				54A67C201A7F5E240005A8F9 /* ImageViewerTweetDataSource.h */,
+				54A67C211A7F5E240005A8F9 /* ImageViewerTweetDataSource.m */,
 			);
 			name = ImageViewer;
 			sourceTree = "<group>";
@@ -566,6 +571,7 @@
 				54CE88BB1A60A52500107C1A /* PhotoSelectionNavigationViewController.m in Sources */,
 				5428F1D21A62A4DA00C9AD4A /* WelcomeViewController.m in Sources */,
 				5428F1EE1A63A06B00C9AD4A /* TwitterPhoto.m in Sources */,
+				54A67C221A7F5E240005A8F9 /* ImageViewerTweetDataSource.m in Sources */,
 				54DF45661A6BE239004861EC /* HomeModel.m in Sources */,
 				5428F1EB1A6382C000C9AD4A /* Tweet.m in Sources */,
 				54CE88851A601BC300107C1A /* main.m in Sources */,

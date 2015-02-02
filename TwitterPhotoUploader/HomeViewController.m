@@ -14,16 +14,19 @@
 #import "SimpleTweetCell.h"
 
 #import "ImageViewer.h"
+#import "ImageViewerTweetDataSource.h"
 
 @interface HomeViewController () <
 HomeModelDelegate,
 SimpleTweetCellDelegate,
+ImageViewerDelegate,
 UITableViewDataSource,
 UITableViewDelegate
 >
 
 @property (nonatomic, strong) HomeModel *homeModel;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) ImageViewerTweetDataSource *imageViewerCurrentDataSource;
 @end
 
 @implementation HomeViewController
@@ -79,6 +82,13 @@ UITableViewDelegate
     NSLog(@"First view return action invoked.");
 }
 
+- (void)imageViewerCloseButtonTapped:(ImageViewer *)imageViewer
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+    self.imageViewerCurrentDataSource = nil;
+}
+
+
 #pragma mark - HomeModel Delegate
 - (void)homeModel:(HomeModel *)sender retriveTweetsCompleted:(NSError *)error
 {
@@ -132,31 +142,26 @@ UITableViewDelegate
 }
 
 #pragma mark - CellDelegate
+
 - (void)simpleTweetCell:(SimpleTweetCell *)sender imageTapped:(TwitterPhoto *)tappedPhoto
 {
-    [[SDWebImageManager sharedManager] downloadImageWithURL:tappedPhoto.mediaURLorig options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+    ImageViewerTweetDataSource *dataSource = [[ImageViewerTweetDataSource alloc] init];
+    dataSource.tweet = sender.tweet;
 
-        if (!finished) return ;
+    ImageViewer *imageViewer = [self.storyboard instantiateViewControllerWithIdentifier:@"ImageViewer"];
+    imageViewer.dataSource = dataSource;
+    imageViewer.delegate = self;
 
-        NSMutableArray *images = [NSMutableArray array];
-        for (int i = 0; i < 4; ++i) {
-            [images addObject:[image copy]];
-        }
+    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:imageViewer];
 
-        ImageViewer *imageViewer = [self.storyboard instantiateViewControllerWithIdentifier:@"ImageViewer"];
-        imageViewer.images = images;
+    [self presentViewController:nc animated:YES completion:nil];
 
-        [self presentViewController:imageViewer animated:YES completion:nil];
-
-    }];
-
-
+    self.imageViewerCurrentDataSource = dataSource;
 }
 
 #pragma mark - User Interactions
 - (IBAction)accountButtonTapped:(id)sender
 {
-    NSLog(@"hoge!!%@", sender);
     [self performSegueWithIdentifier:@"presentAccountSelection" sender:self];
 }
 
