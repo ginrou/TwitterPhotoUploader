@@ -12,6 +12,14 @@
 
 @protocol SimpleTweetCellDelegate;
 
+/**
+ * @class SimpleTweetCell
+ * HomeViewControllerでツイートを簡略表示するときに用いるセル
+ * 対応するxibはそれぞれ
+ * SimepleTweetCell_0img.xib, SimepleTweetCell_1img.xib,
+ * SimepleTweetCell_2img.xib, SimepleTweetCell_4img.xib
+ * の４つ。これ画像枚数によってレイアウトを変更するのを避けるためである。
+ */
 @interface SimpleTweetCell : UITableViewCell
 @property (nonatomic, weak) id<SimpleTweetCellDelegate> delegate;
 @property (nonatomic, strong) Tweet *tweet;

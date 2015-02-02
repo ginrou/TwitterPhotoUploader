@@ -62,7 +62,7 @@
                         <subviews>
                             <button opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="37y-RL-a7q">
                                 <rect key="frame" x="0.0" y="0.0" width="218" height="123"/>
-                                <state key="normal" title="ButtonA">
+                                <state key="normal">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -70,7 +70,6 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="37y-RL-a7q" firstAttribute="top" secondItem="857-PP-KDg" secondAttribute="top" id="AqH-Ys-N7z"/>
                             <constraint firstAttribute="bottom" secondItem="37y-RL-a7q" secondAttribute="bottom" id="H82-vk-LKW"/>
@@ -81,7 +80,6 @@
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4xz-PW-TWZ">
                         <rect key="frame" x="0.0" y="55" width="51" height="123"/>
-                        <color key="backgroundColor" red="1" green="0.44203731330000001" blue="0.2753812054" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="4xz-PW-TWZ" secondAttribute="height" multiplier="51:122" priority="900" id="ImM-uK-3Rl"/>
                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="51" id="fVC-Ua-oMM"/>
@@ -89,7 +87,6 @@
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9an-IK-bWg">
                         <rect key="frame" x="269" y="55" width="51" height="123"/>
-                        <color key="backgroundColor" red="1" green="0.44203731330000001" blue="0.2753812054" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="9an-IK-bWg" secondAttribute="height" multiplier="51:122" priority="900" id="0Ah-lW-IjZ"/>
                         </constraints>
@@ -121,7 +118,7 @@
                 <outlet property="userView" destination="X87-Z2-ZhJ" id="TJB-pj-2oG"/>
                 <outletCollection property="imageButtons" destination="37y-RL-a7q" id="HRn-DQ-seE"/>
             </connections>
-            <point key="canvasLocation" x="467" y="520.5"/>
+            <point key="canvasLocation" x="310" y="309.5"/>
         </tableViewCell>
     </objects>
 </document>

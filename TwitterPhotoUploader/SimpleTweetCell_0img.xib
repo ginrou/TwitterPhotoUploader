@@ -72,7 +72,7 @@
                 <outlet property="bodyLabel" destination="tcb-Pn-Qzb" id="AXu-MO-EMQ"/>
                 <outlet property="userView" destination="dY4-JT-aff" id="r4h-QF-ibE"/>
             </connections>
-            <point key="canvasLocation" x="730" y="485"/>
+            <point key="canvasLocation" x="414" y="244"/>
         </tableViewCell>
     </objects>
 </document>
