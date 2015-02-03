@@ -12,6 +12,7 @@
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UILabel *label;
+@property (weak, nonatomic) IBOutlet UIView *labelBackground;
 
 /// 非同期でデータを取ってきた時に不整合が起きるのを防ぐためのキー
 @property (assign, nonatomic) NSUInteger rowKey;
@@ -46,12 +47,19 @@
 
 - (void)singleTapped:(UITapGestureRecognizer *)sender
 {
-    
+    [UIView animateWithDuration:0.3 animations:^{
+        self.labelBackground.alpha = fabsf(1.0 - self.labelBackground.alpha);
+    }];
 }
 
 - (void)doubleTapped:(UITapGestureRecognizer *)sender
 {
-
+    if (fabs( self.scrollView.zoomScale - self.scrollView.maximumZoomScale) < FLT_EPSILON) {
+        [self.scrollView setZoomScale:self.scrollView.minimumZoomScale animated:YES];
+        [self singleTapped:nil];
+    } else {
+        [self.scrollView setZoomScale:self.scrollView.maximumZoomScale animated:YES];
+    }
 }
 
 - (void)setImage:(UIImage *)image
@@ -59,6 +67,7 @@
 {
     self.imageView.image = image;
     self.label.text = description;
+    self.labelBackground.alpha = 1.0;
     [self setNeedsLayout];
 }
 
@@ -70,6 +79,7 @@ UICollectionViewDataSource,
 UICollectionViewDelegate,
 UICollectionViewDelegateFlowLayout
 >
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
 @end
 
@@ -79,27 +89,6 @@ static NSString * const reuseIdentifier = @"ImageViewerCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.clearsSelectionOnViewWillAppear = YES;
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    NSLog(@"%@", self.navigationController);
-    UINavigationItem *item = self.navigationItem;
-    NSLog(@"%@", self.navigationItem);
-    NSLog(@"%@", self.navigationItem.leftBarButtonItems);
-    NSLog(@"%@", self.navigationItem.rightBarButtonItems);
-
-    UINavigationBar *navigationBar = self.navigationController.navigationBar;
-    navigationBar.translucent = YES;
-    navigationBar.tintColor = [UIColor redColor];
-
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 /*
@@ -116,7 +105,14 @@ static NSString * const reuseIdentifier = @"ImageViewerCell";
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
 {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+
+    NSIndexPath *indexPath = self.collectionView.indexPathsForVisibleItems.firstObject;
     [self.collectionView.collectionViewLayout invalidateLayout];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.collectionView scrollToItemAtIndexPath:indexPath
+                                    atScrollPosition:UICollectionViewScrollPositionNone
+                                            animated:NO];
+    });
 }
 
 #pragma mark <UICollectionViewDataSource>
@@ -182,5 +178,9 @@ static NSString * const reuseIdentifier = @"ImageViewerCell";
 
  }
  */
+
+- (IBAction)closeButtonTapped:(id)sender {
+    [self.delegate imageViewerCloseButtonTapped:self];
+}
 
 @end

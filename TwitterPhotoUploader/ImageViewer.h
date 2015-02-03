@@ -17,7 +17,7 @@
  * データソースとして ImageViewerDataSource に準拠する
  * オブジェクトを渡す必要がある
  */
-@interface ImageViewer : UICollectionViewController
+@interface ImageViewer : UIViewController
 @property (nonatomic, strong) NSArray *images;
 @property (nonatomic, weak) id<ImageViewerDelegate> delegate;
 @property (nonatomic, weak) id<ImageViewerDataSource> dataSource;

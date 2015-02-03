@@ -134,8 +134,6 @@ UITableViewDelegate
     cell.tweet = tweet;
     cell.delegate = self;
 
-    [cell setNeedsUpdateConstraints];
-    [cell updateConstraintsIfNeeded];
     [cell setNeedsLayout];
     [cell layoutIfNeeded];
     return cell;
@@ -152,9 +150,7 @@ UITableViewDelegate
     imageViewer.dataSource = dataSource;
     imageViewer.delegate = self;
 
-    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:imageViewer];
-
-    [self presentViewController:nc animated:YES completion:nil];
+    [self presentViewController:imageViewer animated:YES completion:nil];
 
     self.imageViewerCurrentDataSource = dataSource;
 }
