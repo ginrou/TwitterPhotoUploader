@@ -110,7 +110,7 @@ static const CGFloat kSelectedPhotoCollectionViewHeight = 65.f;
 
 - (void)postViewModel:(PostViewModel *)sender postCompleted:(Tweet *)tweet
 {
-    [self performSegueWithIdentifier:@"postCompleted" sender:self];
+    [self.delegate postViewController:self postCompleted:tweet];
 }
 
 #pragma mark - PhotoSelectionNavigationDelegate
@@ -186,6 +186,8 @@ static const CGFloat kSelectedPhotoCollectionViewHeight = 65.f;
 }
 
 - (IBAction)cancelButtonTapped:(id)sender {
+    [self.delegate postViewControllerDidCanceled:self];
+
 }
 - (IBAction)closeKeyboardButtonTapped:(id)sender {
     [self.textView resignFirstResponder];

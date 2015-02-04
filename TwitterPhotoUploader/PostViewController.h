@@ -7,7 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Tweet.h"
+
+@protocol PostViewControllerDelegate;
 
 @interface PostViewController : UIViewController
+@property (nonatomic, weak) id<PostViewControllerDelegate> delegate;
+@end
 
+@protocol PostViewControllerDelegate <NSObject>
+- (void)postViewControllerDidCanceled:(PostViewController *)postViewController;
+- (void)postViewController:(PostViewController *)postViewController postCompleted:(Tweet *)tweet;
 @end

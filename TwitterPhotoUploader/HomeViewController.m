@@ -16,10 +16,13 @@
 #import "ImageViewer.h"
 #import "ImageViewerTweetDataSource.h"
 
+#import "PostNavigationViewController.h"
+
 @interface HomeViewController () <
 HomeModelDelegate,
 SimpleTweetCellDelegate,
 ImageViewerDelegate,
+PostNavigationViewControllerDelegate,
 UITableViewDataSource,
 UITableViewDelegate
 >
@@ -59,7 +62,6 @@ UITableViewDelegate
          forCellReuseIdentifier:@"SimpleTweetCell_2img"];
     [self.tableView registerNib:[UINib nibWithNibName:@"SimpleTweetCell_4img" bundle:nil]
          forCellReuseIdentifier:@"SimpleTweetCell_4img"];
-
 }
 
 - (void)didReceiveMemoryWarning {
@@ -69,13 +71,12 @@ UITableViewDelegate
 
 
 #pragma mark - Navigation
-/*
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    if ([segue.identifier isEqualToString:@"presentPostNavigationController"]) {
+        [(PostNavigationViewController *)(segue.destinationViewController) setPostDelegate:self];
+    }
 }
-*/
 
 - (IBAction)accountSelectionCompletedForSegue:(UIStoryboardSegue *)segue
 {
@@ -88,6 +89,13 @@ UITableViewDelegate
     self.imageViewerCurrentDataSource = nil;
 }
 
+- (void)postNavigationController:(PostNavigationViewController *)sender postCompleted:(Tweet *)postTweet
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+    if (postTweet) {
+        [self.homeModel retriveTweetsFromServer];
+    }
+}
 
 #pragma mark - HomeModel Delegate
 - (void)homeModel:(HomeModel *)sender retriveTweetsCompleted:(NSError *)error
@@ -164,6 +172,10 @@ UITableViewDelegate
 - (IBAction)segmentedControlValueChanged:(UISegmentedControl *)sender {
     HomeModelTimeLineType timelineType = sender.selectedSegmentIndex;
     [self.homeModel switchTimeLineType:timelineType];
+}
+
+- (IBAction)postButtonTapped:(id)sender {
+    [self performSegueWithIdentifier:@"presentPostNavigationController" sender:self];
 }
 
 @end

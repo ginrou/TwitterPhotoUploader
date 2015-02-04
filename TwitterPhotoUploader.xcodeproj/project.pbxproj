@@ -47,6 +47,7 @@
 		54DF456D1A6C17F0004861EC /* SimpleTweetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 54DF456C1A6C17F0004861EC /* SimpleTweetCell.m */; };
 		9A723AA91A7A91B80061F7D1 /* SimpleTweetCell_0img.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9A723AA81A7A91B80061F7D1 /* SimpleTweetCell_0img.xib */; };
 		9A723AAB1A7A9AF10061F7D1 /* SimpleTweetCell_1img.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9A723AAA1A7A9AF10061F7D1 /* SimpleTweetCell_1img.xib */; };
+		9AABE7101A81133B00EB6D29 /* PostNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AABE70F1A81133B00EB6D29 /* PostNavigationViewController.m */; };
 		CA51EB91338B3576AA5F143C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F8E72C573B6338092F55E0B /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -134,6 +135,8 @@
 		783011FFA8C53CC9EA7B6A4D /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		9A723AA81A7A91B80061F7D1 /* SimpleTweetCell_0img.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SimpleTweetCell_0img.xib; sourceTree = "<group>"; };
 		9A723AAA1A7A9AF10061F7D1 /* SimpleTweetCell_1img.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SimpleTweetCell_1img.xib; sourceTree = "<group>"; };
+		9AABE70E1A81133B00EB6D29 /* PostNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostNavigationViewController.h; sourceTree = "<group>"; };
+		9AABE70F1A81133B00EB6D29 /* PostNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostNavigationViewController.m; sourceTree = "<group>"; };
 		9F8E72C573B6338092F55E0B /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D60E8B458FA7F772D53C935C /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -187,6 +190,8 @@
 				54CE88BD1A60BE4300107C1A /* PostViewModel.m */,
 				5428F1DF1A63808600C9AD4A /* PostResultViewController.h */,
 				5428F1E01A63808600C9AD4A /* PostResultViewController.m */,
+				9AABE70E1A81133B00EB6D29 /* PostNavigationViewController.h */,
+				9AABE70F1A81133B00EB6D29 /* PostNavigationViewController.m */,
 			);
 			name = Post;
 			sourceTree = "<group>";
@@ -586,6 +591,7 @@
 				5428F1CB1A6296AE00C9AD4A /* TwitterUser.m in Sources */,
 				54DF45601A6BB294004861EC /* HomeViewController.m in Sources */,
 				54CE88B21A602CCC00107C1A /* AlbumPhotoDataSource.m in Sources */,
+				9AABE7101A81133B00EB6D29 /* PostNavigationViewController.m in Sources */,
 				5428F1E11A63808600C9AD4A /* PostResultViewController.m in Sources */,
 				54A67C1B1A76A4800005A8F9 /* ImageViewer.m in Sources */,
 				54CE88AE1A602B6900107C1A /* PhotoCollectionViewCell.m in Sources */,

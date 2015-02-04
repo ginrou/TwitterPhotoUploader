@@ -6,10 +6,10 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Navigation Controller-->
+        <!--Post Navigation View Controller-->
         <scene sceneID="O9T-ii-gar">
             <objects>
-                <navigationController id="xt7-qs-YQf" sceneMemberID="viewController">
+                <navigationController id="xt7-qs-YQf" customClass="PostNavigationViewController" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="HBJ-K0-f4V">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -593,11 +593,16 @@
                                 <action selector="segmentedControlValueChanged:" destination="pXe-v9-B6U" eventType="valueChanged" id="XTZ-0i-8Pb"/>
                             </connections>
                         </segmentedControl>
-                        <barButtonItem key="rightBarButtonItem" systemItem="compose" id="JW9-VA-99e"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="compose" id="JW9-VA-99e">
+                            <connections>
+                                <action selector="postButtonTapped:" destination="pXe-v9-B6U" id="pn9-bm-l0f"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="N6F-Ks-T1A" id="svw-zK-zkC"/>
                         <segue destination="VI9-bj-VYt" kind="presentation" identifier="presentAccountSelection" id="fYU-1b-NX0"/>
+                        <segue destination="xt7-qs-YQf" kind="presentation" identifier="presentPostNavigationController" id="Iqu-h2-N1E"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AIj-n2-4Mp" userLabel="First Responder" sceneMemberID="firstResponder"/>
