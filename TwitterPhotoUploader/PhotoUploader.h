@@ -40,13 +40,12 @@
 /**
  * 写真アップロードに成功した時に通知されるNotificationのキー
  * @param userInfo = @{ @"localImage" : アップロードした画像のLocalImageオブジェクト, @"json" : アップロード結果のjson(NSDictionary) }
- * 既にアップロード済みだった場合もこの通知が呼ばれますがjsonオブジェクトはありません。
  */
-FOUNDATION_EXPORT NSString const *PhotoUploaderUploadSuccessNotificationKey;
+FOUNDATION_EXPORT NSString * const PhotoUploaderUploadSuccessNotificationKey;
 
 
 /**
- * 写真アップロードに成功した時に通知されるNotificationのキー
+ * 写真アップロードに失敗した時に通知されるNotificationのキー
  * @param userInfo = @{ @"localImage" : アップロードした画像のLocalImageオブジェクト, @"error" : エラー構造体 }
  */
-FOUNDATION_EXPORT NSString const *PhotoUploaderUploadFailureNotificationKey;
+FOUNDATION_EXPORT NSString * const PhotoUploaderUploadFailureNotificationKey;

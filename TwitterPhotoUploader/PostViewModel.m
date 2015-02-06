@@ -1,3 +1,4 @@
+
 //
 //  PostViewModel.m
 //  TwitterPhotoUploader
@@ -14,15 +15,14 @@
 
 #import "TwitterAccount.h"
 #import "TwitterClient.h"
+#import "PhotoUploader.h"
 
 @interface PostViewModel ()
 @property (nonatomic, strong) ACAccount *account;
 @property (nonatomic, strong) NSMutableDictionary *registerdUsers;
 @property (nonatomic, strong) NSMutableArray *images;
-@property (nonatomic, strong) NSMutableDictionary *uploadedImageIDs;
+@property (nonatomic, strong) NSMutableArray *uploadingImages;
 
-/// Media/Upload の途中にPostが押されたときに待機中かどうかのフラグ
-@property (atomic) BOOL postPending;
 @end
 
 @implementation PostViewModel
@@ -33,7 +33,17 @@
         self.account = [TwitterAccount accounts].firstObject;
         self.registerdUsers = [NSMutableDictionary dictionary];
         self.images = [NSMutableArray array];
-        self.uploadedImageIDs = [NSMutableDictionary dictionary];
+        self.uploadingImages = [NSMutableArray array];
+
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(photoUploadSuccess:)
+                                                     name:PhotoUploaderUploadSuccessNotificationKey
+                                                   object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(photoUploadFailure:)
+                                                     name:PhotoUploaderUploadFailureNotificationKey
+                                                   object:nil];
+
         [self lookupRegisterdUsers];
 
     }
@@ -62,18 +72,9 @@
 #pragma mark - Post Images
 - (void)addImage:(LocalImage *)image
 {
+    [self.uploadingImages addObject:image];
     [self.images addObject:image];
-    [self uploadImage:image].then(^(id arg){
-
-        if (self.uploadedImageIDs[image.hashKey] != nil) {
-            [self.delegate postViewModel:self updateImageCompleted:image];
-        }
-
-        if (self.postPending) {
-            [self post];
-        }
-
-    });
+    [[PhotoUploader sharedUploader] uploadIamge:image];
 }
 
 - (LocalImage *)imageAtIndex:(NSInteger)index
@@ -84,7 +85,6 @@
 - (void)removeImage:(LocalImage *)image
 {
     [self.images removeObject:image];
-    [self.uploadedImageIDs removeObjectForKey:image.hashKey];
 }
 
 - (NSUInteger)imageCounts
@@ -99,71 +99,22 @@
 
 - (BOOL)isUploading:(LocalImage *)image
 {
-    return [self.images containsObject:image] && self.uploadedImageIDs[image.hashKey] == nil;
+    return [self.uploadingImages containsObject:image];
 }
 
-- (PMKPromise *)uploadImage:(LocalImage *)image
+- (BOOL)postPending
 {
-    PMKPromise *loadImage = [PMKPromise new:^(PMKPromiseFulfiller fulfill, PMKPromiseRejecter reject) {
-        [[PHImageManager defaultManager] requestImageDataForAsset:image.asset options:nil resultHandler:^(NSData *imageData, NSString *dataUTI, UIImageOrientation orientation, NSDictionary *info) {
-
-            NSAssert(imageData != nil, @"failed to load image");
-
-            fulfill(PMKManifold(imageData, dataUTI, info));
-
-        }];
-    }];
-
-    return loadImage.then(^(NSData *imageData, NSString *dataUTI, NSDictionary *info){
-
-        NSString *mimeType;
-        if ([dataUTI isEqualToString:@"public.jpeg"]) {
-            mimeType = @"image/jpeg";
-        } else if ([dataUTI isEqualToString:@"public.png"]) {
-            mimeType = @"image/png";
-        }
-
-        NSURL *fileURL = info[@"PHImageFileURLKey"];
-        NSString *filename = [NSString stringWithFormat:@"%@", [fileURL.absoluteString componentsSeparatedByString:@"/"].lastObject];
-
-        return [TwitterClient postMediaUploadForAccount:self.account
-                                                   data:imageData
-                                               mimeType:mimeType
-                                               filename:filename]
-        .then(^(NSDictionary *json, NSHTTPURLResponse *response){
-
-            if ([self.images containsObject:image]) {
-                NSString *mediaIDString = json[@"media_id_string"];
-                self.uploadedImageIDs[image.hashKey] = mediaIDString;
-            }
-        });
-    });
-    
+    return self.uploadingImages.count != 0;
 }
-
 
 - (void)post
 {
 
     NSAssert(self.status != nil, @"status is nil");
 
-    if (self.images.count != self.uploadedImageIDs.count) {
-        self.postPending = YES;
-        return;
-    }
+    if (self.postPending) return;
 
-    NSString *mediaIDs;
-    if (self.images.count == 0) {
-        // do notihng. mediaIDs will be nil
-    } else if (self.images.count == 1) {
-        mediaIDs = self.uploadedImageIDs.allValues.firstObject;
-    } else {
-        mediaIDs = [NSMutableString stringWithString:self.uploadedImageIDs.allValues.firstObject];
-        for (int i = 1; i < self.images.count; ++i) {
-            LocalImage *image = self.images[i];
-            [(NSMutableString *)mediaIDs appendFormat:@",%@", self.uploadedImageIDs[image.hashKey]];
-        }
-    }
+    NSString *mediaIDs = [self mediaIDString];
 
     [TwitterClient postStatusUpdateForAccount:self.account
                                        status:self.status
@@ -172,7 +123,6 @@
 
         Tweet *tweet = [[Tweet alloc] initWithDict:json];
         _postResult = tweet;
-        self.postPending = NO;
         [self.delegate postViewModel:self postCompleted:tweet];
 
     }).catch(^(NSError *error){
@@ -181,6 +131,38 @@
 
     });
 
+}
+
+- (NSString *)mediaIDString
+{
+    if (self.images.count == 0) return nil;
+
+    NSMutableString *string = [NSMutableString string];
+    [string appendString:[[PhotoUploader sharedUploader] mediaIDStringFromLocalImage:self.images.firstObject]];
+
+    if (self.images.count == 1) return string;
+
+    for (int i = 1; i < self.images.count; ++i) {
+        [string appendFormat:@",%@", [[PhotoUploader sharedUploader] mediaIDStringFromLocalImage:self.images[i]]];
+    }
+
+    return string;
+}
+
+#pragma mark - Handle PhotoUploaderNotification
+- (void)photoUploadSuccess:(NSNotification *)notification
+{
+    LocalImage *localImage = notification.userInfo[@"localImage"];
+    [self.uploadingImages removeObject:localImage];
+
+    if (self.postPending) [self post];
+
+    [self.delegate postViewModel:self updateImageCompleted:localImage];
+}
+
+- (void)photoUploadFailure:(NSNotification *)notification
+{
+    NSLog(@"%@", notification);
 }
 
 @end

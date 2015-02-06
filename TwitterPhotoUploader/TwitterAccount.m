@@ -34,7 +34,7 @@
 {
     TwitterUser *defaultUser = [AccountDataStore loadDefaultTwitterAccount];
     for (ACAccount *account in [self accounts]) {
-        if ([account.username isEqualToString:defaultUser.name]) {
+        if ([account.username isEqualToString:defaultUser.screenName]) {
             return account;
         }
     }

@@ -24,6 +24,9 @@
 @property (nonatomic, strong) NSMutableSet *uploadedImages;
 @end
 
+NSString * const PhotoUploaderUploadSuccessNotificationKey = @"PhotoUploaderUploadSuccessNotification";
+NSString * const PhotoUploaderUploadFailureNotificationKey = @"PhotoUploaderUploadFailureNotification";
+
 @implementation PhotoUploader
 
 + (instancetype)sharedUploader
@@ -68,6 +71,16 @@
 
 - (void)uploadIamge:(LocalImage *)localImage
 {
+
+    for (UploadedImage *uploaded in self.uploadedImages) {
+        if (uploaded.localImage == localImage ) {
+            [self postUploadSuccessNotification:uploaded];
+            return;
+        }
+    }
+
+    [self.uploadingImages addObject:localImage];
+
     [PMKPromise new:^(PMKPromiseFulfiller fulfill, PMKPromiseRejecter reject) {
 
         [[PHImageManager defaultManager] requestImageDataForAsset:localImage.asset options:nil resultHandler:^(NSData *imageData, NSString *dataUTI, UIImageOrientation orientation, NSDictionary *info) {
@@ -79,7 +92,6 @@
 
     }]
     .then(^(NSData *imageData, NSString *dataUTI, NSDictionary *info){
-
 
         NSString *mimeType;
         if ([dataUTI isEqualToString:@"public.jpeg"]) {
@@ -97,17 +109,39 @@
                                         filename:filename]
         .then(^(NSDictionary *json, NSHTTPURLResponse *response){
 
-            if (self.uploadedImages containsObject:<#(id)#>) {
+            [self.uploadingImages removeObject:localImage];
+            UploadedImage *uploaded = [[UploadedImage alloc] init];
+            uploaded.localImage = localImage;
+            uploaded.uploadResult = json;
+            [self.uploadedImages addObject:uploaded];
+            [self postUploadSuccessNotification:uploaded];
 
-            }
-
-
+        }).catch(^(NSError *error){
+            [self postUploadFailureNotification:error];
         });
 
-
+    })
+    .catch(^(NSError *error){
+        [self postUploadFailureNotification:error];
     });
 
 
+}
+
+- (void)postUploadSuccessNotification:(UploadedImage *)uploaded
+{
+    NSDictionary *userInfo = @{ @"localImage": uploaded.localImage,
+                                @"json": uploaded.uploadResult};
+    [[NSNotificationCenter defaultCenter] postNotificationName:PhotoUploaderUploadSuccessNotificationKey
+                                                        object:nil
+                                                      userInfo:userInfo];
+}
+
+- (void)postUploadFailureNotification:(NSError *)error
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:PhotoUploaderUploadFailureNotificationKey
+                                                        object:nil
+                                                      userInfo:@{@"error":error}];
 }
 
 @end
