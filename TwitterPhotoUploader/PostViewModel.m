@@ -20,8 +20,10 @@
 @interface PostViewModel ()
 @property (nonatomic, strong) ACAccount *account;
 @property (nonatomic, strong) NSMutableDictionary *registerdUsers;
-@property (nonatomic, strong) NSMutableArray *images;
+@property (nonatomic, strong, readwrite) NSMutableArray *images;
 @property (nonatomic, strong) NSMutableArray *uploadingImages;
+
+@property (nonatomic, assign) BOOL postPending;
 
 @end
 
@@ -32,6 +34,7 @@
     if (self) {
         self.account = [TwitterAccount accounts].firstObject;
         self.registerdUsers = [NSMutableDictionary dictionary];
+        self.status = @"";
         self.images = [NSMutableArray array];
         self.uploadingImages = [NSMutableArray array];
 
@@ -102,19 +105,16 @@
     return [self.uploadingImages containsObject:image];
 }
 
-- (BOOL)postPending
-{
-    return self.uploadingImages.count != 0;
-}
-
 - (void)post
 {
-
-    NSAssert(self.status != nil, @"status is nil");
-
-    if (self.postPending) return;
+    if (self.uploadingImages.count > 0) {
+        self.postPending = YES;
+        return;
+    }
 
     NSString *mediaIDs = [self mediaIDString];
+    NSLog(@"%@", mediaIDs);
+    NSAssert(self.status.length > 0 || mediaIDs != nil, @"incomplete parameters");
 
     [TwitterClient postStatusUpdateForAccount:self.account
                                        status:self.status
@@ -155,7 +155,10 @@
     LocalImage *localImage = notification.userInfo[@"localImage"];
     [self.uploadingImages removeObject:localImage];
 
-    if (self.postPending) [self post];
+    if (self.postPending && self.uploadingImages.count == 0) {
+        self.postPending = NO;
+        [self post];
+    }
 
     [self.delegate postViewModel:self updateImageCompleted:localImage];
 }

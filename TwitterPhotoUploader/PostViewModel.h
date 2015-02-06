@@ -23,6 +23,8 @@
 
 @property (nonatomic, strong, readonly) Tweet *postResult;
 
+@property (nonatomic, readonly) NSMutableArray *images;
+
 - (TwitterUser *)postUser;
 - (void)post;
 

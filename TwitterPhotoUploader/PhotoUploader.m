@@ -19,9 +19,18 @@
 @implementation UploadedImage
 @end
 
+@interface UploadFailedImage : NSObject
+@property (nonatomic, strong) LocalImage *localImage;
+@property (nonatomic, strong) NSError *error;
+@end
+
+@implementation UploadFailedImage
+@end
+
 @interface PhotoUploader ()
 @property (nonatomic, strong) NSMutableSet *uploadingImages;
 @property (nonatomic, strong) NSMutableSet *uploadedImages;
+@property (nonatomic, strong) NSMutableSet *uploadFailedImages;
 @end
 
 NSString * const PhotoUploaderUploadSuccessNotificationKey = @"PhotoUploaderUploadSuccessNotification";
@@ -46,18 +55,40 @@ NSString * const PhotoUploaderUploadFailureNotificationKey = @"PhotoUploaderUplo
         _account = [TwitterAccount defaultAccount];
         _uploadedImages = [NSMutableSet set];
         _uploadingImages = [NSMutableSet set];
+        _uploadFailedImages = [NSMutableSet set];
     }
     return self;
 }
 
-- (NSString *)mediaIDStringFromLocalImage:(LocalImage *)localImage
+- (UploadedImage *)uploadedImageForImage:(LocalImage *)localImage
 {
     for (UploadedImage *image in self.uploadedImages) {
-        if (image.localImage == localImage) {
-            return image.uploadResult[@"media_id_string"];
-        }
+        if (image.localImage == localImage) return image;
     }
     return nil;
+}
+
+- (NSDictionary *)uploadResultForImage:(LocalImage *)localImage
+{
+    return [self uploadedImageForImage:localImage].uploadResult;
+}
+
+- (NSError *)uploadErrorForImage:(LocalImage *)localImage
+{
+    for (UploadFailedImage *failed in self.uploadFailedImages) {
+        if (failed.localImage == localImage) return failed.error;
+    }
+    return nil;
+}
+
+- (NSString *)mediaIDStringFromLocalImage:(LocalImage *)localImage
+{
+    return [self uploadResultForImage:localImage][@"media_id_string"];
+}
+
+- (BOOL)isUploading:(LocalImage *)localImage
+{
+    return [self.uploadingImages containsObject:localImage];
 }
 
 - (NSArray *)allUploadedImages
@@ -71,14 +102,17 @@ NSString * const PhotoUploaderUploadFailureNotificationKey = @"PhotoUploaderUplo
 
 - (void)uploadIamge:(LocalImage *)localImage
 {
-
-    for (UploadedImage *uploaded in self.uploadedImages) {
-        if (uploaded.localImage == localImage ) {
-            [self postUploadSuccessNotification:uploaded];
-            return;
-        }
+    if ([self uploadedImageForImage:localImage] != nil) {
+        [self postUploadSuccessNotification:[self uploadedImageForImage:localImage]];
+        return;
     }
 
+    [self.uploadFailedImages enumerateObjectsUsingBlock:^(UploadFailedImage *image, BOOL *stop) {
+        if (image.localImage == localImage) {
+            [self.uploadFailedImages removeObject:localImage];
+            *stop = YES;
+        }
+    }];
     [self.uploadingImages addObject:localImage];
 
     [PMKPromise new:^(PMKPromiseFulfiller fulfill, PMKPromiseRejecter reject) {
@@ -116,13 +150,17 @@ NSString * const PhotoUploaderUploadFailureNotificationKey = @"PhotoUploaderUplo
             [self.uploadedImages addObject:uploaded];
             [self postUploadSuccessNotification:uploaded];
 
-        }).catch(^(NSError *error){
-            [self postUploadFailureNotification:error];
         });
 
     })
     .catch(^(NSError *error){
-        [self postUploadFailureNotification:error];
+
+        UploadFailedImage *failed = [[UploadFailedImage alloc] init];
+        failed.localImage = localImage;
+        failed.error = error;
+        [self.uploadFailedImages addObject:failed];
+        [self postUploadFailureNotification:failed];
+
     });
 
 
@@ -137,11 +175,13 @@ NSString * const PhotoUploaderUploadFailureNotificationKey = @"PhotoUploaderUplo
                                                       userInfo:userInfo];
 }
 
-- (void)postUploadFailureNotification:(NSError *)error
+- (void)postUploadFailureNotification:(UploadFailedImage *)uploadFailed
 {
+    NSDictionary *userInfo = @{ @"localImage": uploadFailed.localImage,
+                                @"error": uploadFailed.error};
     [[NSNotificationCenter defaultCenter] postNotificationName:PhotoUploaderUploadFailureNotificationKey
                                                         object:nil
-                                                      userInfo:@{@"error":error}];
+                                                      userInfo:userInfo];
 }
 
 @end

@@ -14,12 +14,16 @@
 
 #import "TwitterUserView.h"
 
+#import "ImageViewer.h"
+#import "ImageViewerLocalImageDataSource.h"
+
 @interface PostViewController () <
 UICollectionViewDataSource,
 UICollectionViewDelegate,
 UITextViewDelegate,
 PostViewModelDelegate,
-PhotoSelectionNavigationDelegate
+PhotoSelectionNavigationDelegate,
+ImageViewerDelegate
 >
 @property (weak, nonatomic) IBOutlet UICollectionView *selectedPhotoCollectionView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *photoCollectionViewHeightConstraint;
@@ -31,6 +35,8 @@ PhotoSelectionNavigationDelegate
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *keyboardBottomConstraint;
 
 @property (nonatomic) PostViewModel *viewModel;
+
+@property (nonatomic) ImageViewerLocalImageDataSource *currentImageViewerDataSource;
 
 @end
 
@@ -94,6 +100,14 @@ static const CGFloat kSelectedPhotoCollectionViewHeight = 65.f;
     }
 }
 
+#pragma mark - ImageViewerDelegate
+- (void)imageViewerCloseButtonTapped:(ImageViewer *)imageViewer
+{
+    [self dismissViewControllerAnimated:YES completion:^{
+        self.currentImageViewerDataSource = nil;
+    }];
+}
+
 #pragma mark - PostViewModelDelegate
 - (void)postViewModel:(PostViewModel *)sender lookupUserCompleted:(TwitterUser *)lookuped
 {
@@ -145,6 +159,20 @@ static const CGFloat kSelectedPhotoCollectionViewHeight = 65.f;
     [self.viewModel isUploading:image] ? [cell startLoading] : [cell stopLoading];
 
     return cell;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    ImageViewer *imageViewer = [self.storyboard instantiateViewControllerWithIdentifier:@"ImageViewer"];
+    ImageViewerLocalImageDataSource *dataSource = [ImageViewerLocalImageDataSource new];
+    dataSource.imageViewer = imageViewer;
+    dataSource.localImages = self.viewModel.images;
+
+    imageViewer.dataSource = dataSource;
+    imageViewer.delegate = self;
+    [self presentViewController:imageViewer animated:YES completion:nil];
+
+    self.currentImageViewerDataSource = dataSource;
 }
 
 #pragma mark - UITextViewDelegate

@@ -17,7 +17,6 @@
 /// singleton instance
 + (instancetype)sharedUploader;
 
-
 @property (nonatomic, strong) ACAccount *account;
 
 /**
@@ -29,6 +28,14 @@
  * 既にアップロード済みだった場合は PhotoUploaderUploadSuccessNotificationKey が通知されます。
  */
 - (void)uploadIamge:(LocalImage *)localImage;
+
+- (BOOL)isUploading:(LocalImage *)localImage;
+
+/// アップロード時のAPIレスポンスを返します。アップロード済みでない場合はnilを返します。
+- (NSDictionary *)uploadResultForImage:(LocalImage *)localImage;
+
+/// アップロードに失敗した時のエラーを返します。アップロード前、アップロード成功時はnilを返します。
+- (NSError *)uploadErrorForImage:(LocalImage *)localImage;
 
 - (NSString *)mediaIDStringFromLocalImage:(LocalImage *)localImage;
 
