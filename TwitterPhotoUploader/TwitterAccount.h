@@ -26,4 +26,7 @@
 /// returns Array of ACAccounts objects
 + (NSArray *)accounts;
 
+/// returns default set Account
++ (ACAccount *)defaultAccount;
+
 @end

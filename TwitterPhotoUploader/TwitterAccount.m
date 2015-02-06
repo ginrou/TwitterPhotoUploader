@@ -7,6 +7,7 @@
 //
 
 #import "TwitterAccount.h"
+#import "AccountDataStore.h"
 
 @implementation TwitterAccount
 
@@ -27,6 +28,17 @@
     ACAccountStore *accountStore = [ACAccountStore new];
     ACAccountType *accountType = [accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
     return [accountStore accountsWithAccountType:accountType];
+}
+
++ (ACAccount *)defaultAccount
+{
+    TwitterUser *defaultUser = [AccountDataStore loadDefaultTwitterAccount];
+    for (ACAccount *account in [self accounts]) {
+        if ([account.username isEqualToString:defaultUser.name]) {
+            return account;
+        }
+    }
+    return nil;
 }
 
 + (PMKPromise *)getGrantForService

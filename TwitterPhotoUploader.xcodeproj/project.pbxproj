@@ -48,6 +48,7 @@
 		9A723AA91A7A91B80061F7D1 /* SimpleTweetCell_0img.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9A723AA81A7A91B80061F7D1 /* SimpleTweetCell_0img.xib */; };
 		9A723AAB1A7A9AF10061F7D1 /* SimpleTweetCell_1img.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9A723AAA1A7A9AF10061F7D1 /* SimpleTweetCell_1img.xib */; };
 		9AABE7101A81133B00EB6D29 /* PostNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AABE70F1A81133B00EB6D29 /* PostNavigationViewController.m */; };
+		9AABE7131A825B3700EB6D29 /* PhotoUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AABE7121A825B3700EB6D29 /* PhotoUploader.m */; };
 		CA51EB91338B3576AA5F143C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F8E72C573B6338092F55E0B /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -137,6 +138,8 @@
 		9A723AAA1A7A9AF10061F7D1 /* SimpleTweetCell_1img.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SimpleTweetCell_1img.xib; sourceTree = "<group>"; };
 		9AABE70E1A81133B00EB6D29 /* PostNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostNavigationViewController.h; sourceTree = "<group>"; };
 		9AABE70F1A81133B00EB6D29 /* PostNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostNavigationViewController.m; sourceTree = "<group>"; };
+		9AABE7111A825B3700EB6D29 /* PhotoUploader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoUploader.h; sourceTree = "<group>"; };
+		9AABE7121A825B3700EB6D29 /* PhotoUploader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoUploader.m; sourceTree = "<group>"; };
 		9F8E72C573B6338092F55E0B /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D60E8B458FA7F772D53C935C /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -192,6 +195,8 @@
 				5428F1E01A63808600C9AD4A /* PostResultViewController.m */,
 				9AABE70E1A81133B00EB6D29 /* PostNavigationViewController.h */,
 				9AABE70F1A81133B00EB6D29 /* PostNavigationViewController.m */,
+				9AABE7111A825B3700EB6D29 /* PhotoUploader.h */,
+				9AABE7121A825B3700EB6D29 /* PhotoUploader.m */,
 			);
 			name = Post;
 			sourceTree = "<group>";
@@ -582,6 +587,7 @@
 				54CE88851A601BC300107C1A /* main.m in Sources */,
 				54DF45631A6BB5D1004861EC /* AccountSelectionViewController.m in Sources */,
 				54CE88B51A603F1200107C1A /* LocalImage.m in Sources */,
+				9AABE7131A825B3700EB6D29 /* PhotoUploader.m in Sources */,
 				5428F1C71A6201FB00C9AD4A /* TwitterAccount.m in Sources */,
 				54CE88B81A60A34600107C1A /* PostViewController.m in Sources */,
 				54DF456D1A6C17F0004861EC /* SimpleTweetCell.m in Sources */,
