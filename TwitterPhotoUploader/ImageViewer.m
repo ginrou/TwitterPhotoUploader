@@ -8,17 +8,24 @@
 
 #import "ImageViewer.h"
 
+@protocol ImageViewerCellDelegate;
+
 @interface ImageViewerCell : UICollectionViewCell <UIScrollViewDelegate>
+@property (weak, nonatomic) id<ImageViewerCellDelegate> delegate;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UILabel *label;
 @property (weak, nonatomic) IBOutlet UIView *labelBackground;
-
+@property (weak, nonatomic) IBOutlet UIButton *actionButton;
 /// 非同期でデータを取ってきた時に不整合が起きるのを防ぐためのキー
 @property (assign, nonatomic) NSUInteger rowKey;
 
-- (void)setImage:(UIImage *)image description:(NSString *)description;
+- (void)setImage:(UIImage *)image description:(NSString *)description actionButtonTitle:(NSString *)actionButtonTitle;
 
+@end
+
+@protocol ImageViewerCellDelegate <NSObject>
+- (void)imageViewerCellActionButtonTapped:(ImageViewerCell *)cell;
 @end
 
 @implementation ImageViewerCell
@@ -62,12 +69,21 @@
     }
 }
 
+- (IBAction)actionButtonTapped:(id)sender {
+    [self.delegate imageViewerCellActionButtonTapped:self];
+}
+
 - (void)setImage:(UIImage *)image
      description:(NSString *)description
+actionButtonTitle:(NSString *)actionButtonTitle
 {
     self.imageView.image = image;
     self.label.text = description;
     self.labelBackground.alpha = 1.0;
+
+    self.actionButton.hidden = (actionButtonTitle == nil);
+    [self.actionButton setTitle:actionButtonTitle forState:UIControlStateNormal];
+
     [self setNeedsLayout];
 }
 
@@ -77,7 +93,8 @@
 <
 UICollectionViewDataSource,
 UICollectionViewDelegate,
-UICollectionViewDelegateFlowLayout
+UICollectionViewDelegateFlowLayout,
+ImageViewerCellDelegate
 >
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
@@ -115,6 +132,13 @@ static NSString * const reuseIdentifier = @"ImageViewerCell";
     });
 }
 
+#pragma mark public
+- (void)updateAtIndex:(NSUInteger)index
+{
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+    [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
+}
+
 #pragma mark <UICollectionViewDataSource>
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
@@ -131,14 +155,24 @@ static NSString * const reuseIdentifier = @"ImageViewerCell";
     ImageViewerCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier
                                                                       forIndexPath:indexPath];
     cell.rowKey = indexPath.row;
+    cell.delegate = self;
 
-    [self.dataSource imageViewer:self contentsAtIndex:indexPath.row callback:^(NSInteger rowKey, NSString *description, UIImage *image) {
+    [self.dataSource imageViewer:self contentsAtIndex:indexPath.row callback:^(NSInteger rowKey, NSString *description, NSString *actionButtonTitle, UIImage *image) {
         if (cell.rowKey != rowKey) return;
-        [cell setImage:image description:description];
+        [cell setImage:image description:description actionButtonTitle:actionButtonTitle];
         [cell layoutIfNeeded];
     }];
 
     return cell;
+}
+
+#pragma mark <UIImageCellDelegate>
+- (void)imageViewerCellActionButtonTapped:(ImageViewerCell *)cell
+{
+    NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
+    if ([self.delegate respondsToSelector:@selector(imageViewer:actionButtonTappedAtIndex:)]) {
+        [self.delegate imageViewer:self actionButtonTappedAtIndex:indexPath.row];
+    }
 }
 
 #pragma mark <UICollectionViewDelegateFlowLayout>

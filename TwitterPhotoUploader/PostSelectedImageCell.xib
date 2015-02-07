@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
@@ -13,13 +13,13 @@
                 <rect key="frame" x="0.0" y="0.0" width="167" height="167"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ln7-rN-IU5">
-                        <rect key="frame" x="0.0" y="0.0" width="167" height="167"/>
+                        <rect key="frame" x="0.0" y="10" width="157" height="157"/>
                     </imageView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nxp-PB-A5v">
-                        <rect key="frame" x="0.0" y="0.0" width="167" height="167"/>
+                        <rect key="frame" x="0.0" y="10" width="157" height="157"/>
                         <subviews>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="BFA-UK-AYg">
-                                <rect key="frame" x="74" y="74" width="20" height="20"/>
+                                <rect key="frame" x="69" y="69" width="20" height="20"/>
                             </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.20000000000000001" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -28,26 +28,62 @@
                             <constraint firstAttribute="centerY" secondItem="BFA-UK-AYg" secondAttribute="centerY" id="zx6-ZD-Fiy"/>
                         </constraints>
                     </view>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="caution" translatesAutoresizingMaskIntoConstraints="NO" id="IRZ-e6-xBX">
+                        <rect key="frame" x="8" y="18" width="141" height="141"/>
+                    </imageView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ogd-PM-jA6">
+                        <rect key="frame" x="147" y="0.0" width="20" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="20" id="5qY-Gt-CEg"/>
+                            <constraint firstAttribute="height" constant="22" id="Hjv-75-7Ib"/>
+                            <constraint firstAttribute="width" constant="20" id="s5x-Tv-niI"/>
+                            <constraint firstAttribute="height" constant="20" id="yEG-QK-bMS"/>
+                        </constraints>
+                        <state key="normal" image="close">
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="Hjv-75-7Ib"/>
+                                <exclude reference="s5x-Tv-niI"/>
+                            </mask>
+                        </variation>
+                        <connections>
+                            <action selector="cancelButtonTapped:" destination="gTV-IL-0wX" eventType="touchUpInside" id="hoK-pX-Bbu"/>
+                        </connections>
+                    </button>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="Ln7-rN-IU5" secondAttribute="trailing" id="0W7-K2-raa"/>
+                <constraint firstAttribute="trailing" secondItem="Ln7-rN-IU5" secondAttribute="trailing" constant="10" id="0W7-K2-raa"/>
                 <constraint firstAttribute="bottom" secondItem="Ln7-rN-IU5" secondAttribute="bottom" id="3rH-fG-OoZ"/>
-                <constraint firstItem="Ln7-rN-IU5" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="3rw-Sf-C5E"/>
+                <constraint firstItem="Ln7-rN-IU5" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="10" id="3rw-Sf-C5E"/>
                 <constraint firstItem="Nxp-PB-A5v" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="Fqa-jD-gQ9"/>
                 <constraint firstItem="Ln7-rN-IU5" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="IYj-OX-HEO"/>
-                <constraint firstAttribute="trailing" secondItem="Nxp-PB-A5v" secondAttribute="trailing" id="PEg-wX-hm1"/>
-                <constraint firstItem="Nxp-PB-A5v" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="iRd-Xd-lSz"/>
+                <constraint firstItem="Ln7-rN-IU5" firstAttribute="leading" secondItem="IRZ-e6-xBX" secondAttribute="leading" constant="-8" id="M04-LY-vMJ"/>
+                <constraint firstAttribute="trailing" secondItem="Nxp-PB-A5v" secondAttribute="trailing" constant="10" id="PEg-wX-hm1"/>
+                <constraint firstItem="Ln7-rN-IU5" firstAttribute="top" secondItem="IRZ-e6-xBX" secondAttribute="top" constant="-8" id="d4E-Oj-seR"/>
+                <constraint firstItem="Ln7-rN-IU5" firstAttribute="trailing" secondItem="IRZ-e6-xBX" secondAttribute="trailing" constant="8" id="dFZ-uE-4rf"/>
+                <constraint firstAttribute="trailing" secondItem="Ogd-PM-jA6" secondAttribute="trailing" id="gq4-65-Pid"/>
+                <constraint firstItem="Nxp-PB-A5v" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="10" id="iRd-Xd-lSz"/>
+                <constraint firstItem="Ln7-rN-IU5" firstAttribute="bottom" secondItem="IRZ-e6-xBX" secondAttribute="bottom" constant="8" id="ppw-ht-x0u"/>
                 <constraint firstAttribute="bottom" secondItem="Nxp-PB-A5v" secondAttribute="bottom" id="vXQ-HS-o1p"/>
+                <constraint firstItem="Ogd-PM-jA6" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="zgB-oU-SqU"/>
             </constraints>
             <size key="customSize" width="167" height="167"/>
             <connections>
                 <outlet property="activityIndicator" destination="BFA-UK-AYg" id="ZC1-bH-sNA"/>
+                <outlet property="cautionIcon" destination="IRZ-e6-xBX" id="tqS-C4-N72"/>
                 <outlet property="highlightOverlay" destination="Nxp-PB-A5v" id="X6z-2r-hdz"/>
                 <outlet property="imageView" destination="Ln7-rN-IU5" id="aPG-tC-tMJ"/>
             </connections>
-            <point key="canvasLocation" x="276.5" y="297.5"/>
+            <point key="canvasLocation" x="-74.5" y="177.5"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <image name="caution" width="100" height="100"/>
+        <image name="close" width="20" height="20"/>
+    </resources>
 </document>

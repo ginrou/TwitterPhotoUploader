@@ -8,7 +8,16 @@
 
 #import "PhotoCollectionViewCell.h"
 
+@protocol PostSelectedImageCellDelegate;
+
 @interface PostSelectedImageCell : PhotoCollectionViewCell
+@property (nonatomic, weak) id<PostSelectedImageCellDelegate> delegate;
+
 - (void)startLoading;
 - (void)stopLoading;
+@property (getter=caution, setter=setCaution:) BOOL caution;
+@end
+
+@protocol PostSelectedImageCellDelegate <NSObject>
+- (void)postSelectedImageCellCancelButtonTapped:(PostSelectedImageCell *)cell;
 @end

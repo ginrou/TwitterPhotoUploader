@@ -137,10 +137,10 @@ NSString * const PhotoUploaderUploadFailureNotificationKey = @"PhotoUploaderUplo
         NSURL *fileURL = info[@"PHImageFileURLKey"];
         NSString *filename = [NSString stringWithFormat:@"%@", [fileURL.absoluteString componentsSeparatedByString:@"/"].lastObject];
 
-        [TwitterClient postMediaUploadForAccount:self.account
-                                            data:imageData
-                                        mimeType:mimeType
-                                        filename:filename]
+        return [TwitterClient postMediaUploadForAccount:self.account
+                                                   data:imageData
+                                               mimeType:mimeType
+                                               filename:filename]
         .then(^(NSDictionary *json, NSHTTPURLResponse *response){
 
             [self.uploadingImages removeObject:localImage];
@@ -155,6 +155,7 @@ NSString * const PhotoUploaderUploadFailureNotificationKey = @"PhotoUploaderUplo
     })
     .catch(^(NSError *error){
 
+        [self.uploadingImages removeObject:localImage];
         UploadFailedImage *failed = [[UploadFailedImage alloc] init];
         failed.localImage = localImage;
         failed.error = error;

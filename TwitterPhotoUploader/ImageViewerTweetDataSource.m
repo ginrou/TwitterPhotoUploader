@@ -18,7 +18,7 @@
 
 - (void)imageViewer:(ImageViewer *)imageViewer
     contentsAtIndex:(NSInteger)index
-           callback:(void (^)(NSInteger, NSString *, UIImage *))callback
+           callback:(void (^)(NSInteger, NSString *, NSString *, UIImage *))callback
 {
     TwitterPhoto *photo = self.tweet.mediaList[index];
     [[SDWebImageManager sharedManager] downloadImageWithURL:photo.mediaURLorig options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
@@ -26,7 +26,7 @@
         if (finished == NO) return;
 
         NSString *description = [[self class] descriptionForPhoto:photo];
-        callback(index, description, image);
+        callback(index, description, nil, image);
 
     }];
 }

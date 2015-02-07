@@ -448,19 +448,40 @@
                                                     <rect key="frame" x="0.0" y="467" width="500" height="33"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sam-3e-ZEw">
-                                                            <rect key="frame" x="8" y="8" width="484" height="17"/>
+                                                            <rect key="frame" x="8" y="8" width="416" height="17"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZYJ-DT-YNd">
+                                                            <rect key="frame" x="432" y="2" width="60" height="29"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" priority="750" constant="60" id="s5d-2T-Yw7"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                            <state key="normal" title="Action">
+                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </state>
+                                                            <connections>
+                                                                <action selector="actionButtonTapped:" destination="XLb-vy-lWn" eventType="touchUpInside" id="aak-vK-TWJ"/>
+                                                            </connections>
+                                                        </button>
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="calibratedWhite"/>
                                                     <constraints>
-                                                        <constraint firstItem="Sam-3e-ZEw" firstAttribute="top" secondItem="huZ-AY-8aK" secondAttribute="top" constant="8" id="IpO-vi-8MT"/>
-                                                        <constraint firstAttribute="bottom" secondItem="Sam-3e-ZEw" secondAttribute="bottom" constant="8" id="J3e-iL-3n4"/>
-                                                        <constraint firstItem="Sam-3e-ZEw" firstAttribute="leading" secondItem="huZ-AY-8aK" secondAttribute="leading" constant="8" id="XRL-Ly-B7z"/>
+                                                        <constraint firstAttribute="centerY" secondItem="ZYJ-DT-YNd" secondAttribute="centerY" id="TDh-oC-kHN"/>
+                                                        <constraint firstItem="Sam-3e-ZEw" firstAttribute="top" secondItem="huZ-AY-8aK" secondAttribute="top" constant="8" id="awR-A6-oeI"/>
+                                                        <constraint firstAttribute="trailing" secondItem="ZYJ-DT-YNd" secondAttribute="trailing" constant="8" id="eDB-TP-yLT"/>
                                                         <constraint firstAttribute="trailing" secondItem="Sam-3e-ZEw" secondAttribute="trailing" constant="8" id="eOu-B8-FtY"/>
+                                                        <constraint firstItem="ZYJ-DT-YNd" firstAttribute="leading" secondItem="Sam-3e-ZEw" secondAttribute="trailing" constant="8" id="gW4-da-3mb"/>
+                                                        <constraint firstAttribute="bottom" secondItem="Sam-3e-ZEw" secondAttribute="bottom" constant="8" id="mo0-b3-vx0"/>
+                                                        <constraint firstItem="Sam-3e-ZEw" firstAttribute="leading" secondItem="huZ-AY-8aK" secondAttribute="leading" constant="8" id="uEl-9z-rq4"/>
                                                     </constraints>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="eOu-B8-FtY"/>
+                                                        </mask>
+                                                    </variation>
                                                 </view>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -475,6 +496,7 @@
                                             <constraint firstItem="9RP-8I-m2N" firstAttribute="leading" secondItem="XLb-vy-lWn" secondAttribute="leading" id="pVQ-Ux-ajA"/>
                                         </constraints>
                                         <connections>
+                                            <outlet property="actionButton" destination="ZYJ-DT-YNd" id="NiI-Tm-XA3"/>
                                             <outlet property="imageView" destination="B8r-w5-WZg" id="GPY-Hc-dzU"/>
                                             <outlet property="label" destination="Sam-3e-ZEw" id="O6m-hx-lvK"/>
                                             <outlet property="labelBackground" destination="huZ-AY-8aK" id="Vhb-t0-uRd"/>
@@ -489,9 +511,7 @@
                             </collectionView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e0l-u6-0MU">
                                 <rect key="frame" x="544" y="28" width="40" height="30"/>
-                                <state key="normal" title="Close">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
+                                <state key="normal" title="Close"/>
                                 <connections>
                                     <action selector="closeButtonTapped:" destination="QdN-Ie-ACm" eventType="touchUpInside" id="YwG-0r-XDw"/>
                                 </connections>

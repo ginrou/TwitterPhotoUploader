@@ -10,6 +10,7 @@
 
 @interface PostSelectedImageCell ()
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (weak, nonatomic) IBOutlet UIImageView *cautionIcon;
 
 @end
 
@@ -26,6 +27,16 @@
     self.highlightOverlay.hidden = !self.highlighted;
 }
 
+- (void)setCaution:(BOOL)caution
+{
+    self.cautionIcon.hidden = !caution;
+}
+
+- (BOOL)caution
+{
+    return !self.cautionIcon.hidden;
+}
+
 - (void)setHighlighted:(BOOL)highlighted
 {
     [super setHighlighted:highlighted];
@@ -35,6 +46,9 @@
     } else {
         self.highlightOverlay.hidden = YES;
     }
+}
+- (IBAction)cancelButtonTapped:(id)sender {
+    [self.delegate postSelectedImageCellCancelButtonTapped:self];
 }
 
 @end

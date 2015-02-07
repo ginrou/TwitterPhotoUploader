@@ -44,14 +44,16 @@
 
 - (void)imageViewer:(ImageViewer *)imageViewer
     contentsAtIndex:(NSInteger)index
-           callback:(void (^)(NSInteger, NSString *, UIImage *))callback
+           callback:(void (^)(NSInteger, NSString *, NSString *, UIImage *))callback
 {
     LocalImage *localImage = self.localImages[index];
     CGSize imageSize = self.imageViewer.view.frame.size;
     [[PHImageManager defaultManager] requestImageForAsset:localImage.asset targetSize:imageSize contentMode:PHImageContentModeDefault options:0 resultHandler:^(UIImage *result, NSDictionary *info) {
 
         NSString *description = [self descriptionForImage:localImage];
-        callback(index, description, result);
+        NSString *actionButtonTitle = [self actionButtonTitleForImage:localImage];
+
+        callback(index, description, actionButtonTitle, result);
     }];
 }
 
@@ -68,21 +70,35 @@
 
     NSError *uploadError = [[PhotoUploader sharedUploader] uploadErrorForImage:image];
     if (uploadError) {
-        return [NSString stringWithFormat:@"Upload Failed : %@", uploadError];
+        NSString *errorDescription = NSLocalizedString(uploadError.userInfo[NSLocalizedDescriptionKey], nil);
+        return [NSString stringWithFormat:@"Upload Failed : \n%@", errorDescription];
     }
 
     return @"Other Pattern... should not come here...";
 }
 
+- (NSString *)actionButtonTitleForImage:(LocalImage *)image
+{
+    NSError *uploadError = [[PhotoUploader sharedUploader] uploadErrorForImage:image];
+    return uploadError == nil ? nil : @"Retry";
+}
 
 - (void)photoUploadSuccess:(NSNotification *)notification
 {
-    // TODO 更新処理
+    LocalImage *updatedImage = notification.userInfo[@"localImage"];
+    NSUInteger index = [self.localImages indexOfObject:updatedImage];
+    if (index != NSNotFound) {
+        [self.imageViewer updateAtIndex:index];
+    }
 }
 
 - (void)photoUploadFailure:(NSNotification *)notification
 {
-    // TODO 更新処理
+    LocalImage *updatedImage = notification.userInfo[@"localImage"];
+    NSUInteger index = [self.localImages indexOfObject:updatedImage];
+    if (index != NSNotFound) {
+        [self.imageViewer updateAtIndex:index];
+    }
 }
 
 @end

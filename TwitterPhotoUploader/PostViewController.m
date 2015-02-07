@@ -23,6 +23,7 @@ UICollectionViewDelegate,
 UITextViewDelegate,
 PostViewModelDelegate,
 PhotoSelectionNavigationDelegate,
+PostSelectedImageCellDelegate,
 ImageViewerDelegate
 >
 @property (weak, nonatomic) IBOutlet UICollectionView *selectedPhotoCollectionView;
@@ -108,18 +109,35 @@ static const CGFloat kSelectedPhotoCollectionViewHeight = 65.f;
     }];
 }
 
+- (void)imageViewer:(ImageViewer *)imageViewer actionButtonTappedAtIndex:(NSUInteger)index
+{
+    LocalImage *image = [self.viewModel imageAtIndex:index];
+    [self.viewModel addImage:image];
+    [imageViewer updateAtIndex:index];
+}
+
 #pragma mark - PostViewModelDelegate
 - (void)postViewModel:(PostViewModel *)sender lookupUserCompleted:(TwitterUser *)lookuped
 {
     self.postUserView.user = lookuped;
 }
 
-- (void)postViewModel:(PostViewModel *)sender updateImageCompleted:(LocalImage *)image
+- (void)postViewModel:(PostViewModel *)sender uploadImageCompleted:(LocalImage *)image
 {
     NSInteger index = [sender indexOfImage:image];
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
     PostSelectedImageCell *cell = (PostSelectedImageCell *)[self.selectedPhotoCollectionView cellForItemAtIndexPath:indexPath];
     [cell stopLoading];
+    cell.caution = NO;
+}
+
+- (void)postViewModel:(PostViewModel *)sender uploadImage:(LocalImage *)image failed:(NSError *)error
+{
+    NSInteger index = [sender indexOfImage:image];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+    PostSelectedImageCell *cell = (PostSelectedImageCell *)[self.selectedPhotoCollectionView cellForItemAtIndexPath:indexPath];
+    [cell stopLoading];
+    cell.caution = YES;
 }
 
 - (void)postViewModel:(PostViewModel *)sender postCompleted:(Tweet *)tweet
@@ -155,8 +173,15 @@ static const CGFloat kSelectedPhotoCollectionViewHeight = 65.f;
                                                                             forIndexPath:indexPath];
     LocalImage *image = [self.viewModel imageAtIndex:indexPath.row];
     cell.image = image;
+    cell.delegate = self;
 
-    [self.viewModel isUploading:image] ? [cell startLoading] : [cell stopLoading];
+    if ([self.viewModel isUploading:image]) {
+        [cell startLoading];
+        cell.caution = NO;
+    } else {
+        [cell stopLoading];
+        cell.caution = [self.viewModel uploadFailed:image];
+    }
 
     return cell;
 }
@@ -173,6 +198,14 @@ static const CGFloat kSelectedPhotoCollectionViewHeight = 65.f;
     [self presentViewController:imageViewer animated:YES completion:nil];
 
     self.currentImageViewerDataSource = dataSource;
+}
+
+- (void)postSelectedImageCellCancelButtonTapped:(PostSelectedImageCell *)cell
+{
+    LocalImage *image = cell.image;
+    [self.viewModel removeImage:image];
+    NSIndexPath *indexPath = [self.selectedPhotoCollectionView indexPathForCell:cell];
+    [self.selectedPhotoCollectionView deleteItemsAtIndexPaths:@[indexPath]];
 }
 
 #pragma mark - UITextViewDelegate

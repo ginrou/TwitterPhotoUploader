@@ -21,6 +21,7 @@
 @property (nonatomic, strong) NSArray *images;
 @property (nonatomic, weak) id<ImageViewerDelegate> delegate;
 @property (nonatomic, weak) id<ImageViewerDataSource> dataSource;
+- (void)updateAtIndex:(NSUInteger)index;
 @end
 
 @protocol ImageViewerDataSource <NSObject>
@@ -28,11 +29,15 @@
 - (NSUInteger)imageViewerNumberOfImages:(ImageViewer *)imageViewer;
 - (void)imageViewer:(ImageViewer *)imageViewer
     contentsAtIndex:(NSInteger)index
-           callback:(void (^)(NSInteger rowKey, NSString *description, UIImage *image))callback;
+           callback:(void (^)(NSInteger rowKey, NSString *description, NSString *actionButtonTitle, UIImage *image))callback;
 @optional
 // TODO: need impl?
 @end
 
 @protocol ImageViewerDelegate <NSObject>
+@required
 - (void)imageViewerCloseButtonTapped:(ImageViewer *)imageViewer;
+
+@optional
+- (void)imageViewer:(ImageViewer *)imageViewer actionButtonTappedAtIndex:(NSUInteger)index;
 @end

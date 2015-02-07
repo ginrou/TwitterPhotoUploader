@@ -53,6 +53,11 @@
     return self;
 }
 
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 #pragma mark - Post User
 - (TwitterUser *)postUser
 {
@@ -76,7 +81,7 @@
 - (void)addImage:(LocalImage *)image
 {
     [self.uploadingImages addObject:image];
-    [self.images addObject:image];
+    if ([self.images containsObject:image] == NO) [self.images addObject:image];
     [[PhotoUploader sharedUploader] uploadIamge:image];
 }
 
@@ -88,6 +93,8 @@
 - (void)removeImage:(LocalImage *)image
 {
     [self.images removeObject:image];
+    [self.uploadingImages removeObject:image];
+    self.postPending = NO;
 }
 
 - (NSUInteger)imageCounts
@@ -105,6 +112,11 @@
     return [self.uploadingImages containsObject:image];
 }
 
+- (BOOL)uploadFailed:(LocalImage *)image
+{
+    return [[PhotoUploader sharedUploader] uploadErrorForImage:image] != nil;
+}
+
 - (void)post
 {
     if (self.uploadingImages.count > 0) {
@@ -113,7 +125,6 @@
     }
 
     NSString *mediaIDs = [self mediaIDString];
-    NSLog(@"%@", mediaIDs);
     NSAssert(self.status.length > 0 || mediaIDs != nil, @"incomplete parameters");
 
     [TwitterClient postStatusUpdateForAccount:self.account
@@ -160,12 +171,14 @@
         [self post];
     }
 
-    [self.delegate postViewModel:self updateImageCompleted:localImage];
+    [self.delegate postViewModel:self uploadImageCompleted:localImage];
 }
 
 - (void)photoUploadFailure:(NSNotification *)notification
 {
-    NSLog(@"%@", notification);
+    [self.delegate postViewModel:self
+                     uploadImage:notification.userInfo[@"localImage"]
+                          failed:notification.userInfo[@"error"]];
 }
 
 @end

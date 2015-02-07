@@ -34,6 +34,7 @@
 - (NSUInteger)imageCounts;
 - (NSUInteger)indexOfImage:(LocalImage *)image;
 - (BOOL)isUploading:(LocalImage *)image;
+- (BOOL)uploadFailed:(LocalImage *)image;
 
 /// TODO
 ///- (NSUInteger)maximumImageCounts;
@@ -41,7 +42,8 @@
 @end
 
 @protocol PostViewModelDelegate <NSObject>
-- (void)postViewModel:(PostViewModel *)sender updateImageCompleted:(LocalImage *)image;
+- (void)postViewModel:(PostViewModel *)sender uploadImageCompleted:(LocalImage *)image;
+- (void)postViewModel:(PostViewModel *)sender uploadImage:(LocalImage *)image failed:(NSError *)error;
 - (void)postViewModel:(PostViewModel *)sender lookupUserCompleted:(TwitterUser *)lookuped;
 - (void)postViewModel:(PostViewModel *)sender postCompleted:(Tweet *)tweet;
 @end
