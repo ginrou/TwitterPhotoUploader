@@ -25,6 +25,7 @@ typedef NS_ENUM(NSUInteger, HomeModelTimeLineType) {
 
 - (void)switchTimeLineType:(HomeModelTimeLineType)timeLineType;
 - (void)retriveTweetsFromServer;
+- (void)retriveMoreTweetsFromServer;
 
 - (NSInteger)tweetsCount;
 - (Tweet *)tweetAtIndex:(NSInteger)index;

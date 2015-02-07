@@ -16,6 +16,7 @@
 @property (nonatomic, readonly) NSString *text;
 @property (nonatomic, readonly) TwitterUser *user;
 @property (nonatomic, readonly) NSArray *mediaList;
+@property (nonatomic, readonly) NSDate *createdAt;
 
 - (instancetype)initWithDict:(NSDictionary *)dict;
 @end

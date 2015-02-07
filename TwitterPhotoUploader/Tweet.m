@@ -23,6 +23,19 @@
             [array addObject:[[TwitterPhoto alloc] initWithDict:media]];
         }
         if (array.count != 0) _mediaList = [NSArray arrayWithArray:array];
+
+        static NSDateFormatter *dateFormatter;
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            dateFormatter = [[NSDateFormatter alloc] init];
+            dateFormatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
+            dateFormatter.dateStyle = NSDateFormatterLongStyle;
+            dateFormatter.formatterBehavior = NSDateFormatterBehavior10_4;
+            dateFormatter.dateFormat = @"EEE MMM dd HH:mm:ss '+0000' yyyy";
+        });
+
+        _createdAt = [dateFormatter dateFromString:dict[@"created_at"]];
+
     }
     return self;
 }
@@ -30,6 +43,15 @@
 - (NSString *)description
 {
     return [NSString stringWithFormat:@"@%@ : %@", self.user.screenName, self.text];
+}
+
+- (BOOL)isEqual:(id)object
+{
+    if ([object isKindOfClass:[Tweet class]]) {
+        return [self.ID isEqualToString:[(Tweet *)object ID]];
+    }
+
+    return [super isEqual:object];
 }
 
 @end

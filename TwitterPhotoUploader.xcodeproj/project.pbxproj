@@ -46,6 +46,7 @@
 		54DF45661A6BE239004861EC /* HomeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 54DF45651A6BE239004861EC /* HomeModel.m */; };
 		54DF456A1A6BE2E0004861EC /* AccountDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 54DF45691A6BE2E0004861EC /* AccountDataStore.m */; };
 		54DF456D1A6C17F0004861EC /* SimpleTweetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 54DF456C1A6C17F0004861EC /* SimpleTweetCell.m */; };
+		54EDC0FC1A86881F00371155 /* LoadingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 54EDC0FB1A86881F00371155 /* LoadingCell.xib */; };
 		9A723AA91A7A91B80061F7D1 /* SimpleTweetCell_0img.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9A723AA81A7A91B80061F7D1 /* SimpleTweetCell_0img.xib */; };
 		9A723AAB1A7A9AF10061F7D1 /* SimpleTweetCell_1img.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9A723AAA1A7A9AF10061F7D1 /* SimpleTweetCell_1img.xib */; };
 		9AABE7101A81133B00EB6D29 /* PostNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AABE70F1A81133B00EB6D29 /* PostNavigationViewController.m */; };
@@ -136,6 +137,7 @@
 		54DF45691A6BE2E0004861EC /* AccountDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountDataStore.m; sourceTree = "<group>"; };
 		54DF456B1A6C17F0004861EC /* SimpleTweetCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleTweetCell.h; sourceTree = "<group>"; };
 		54DF456C1A6C17F0004861EC /* SimpleTweetCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleTweetCell.m; sourceTree = "<group>"; };
+		54EDC0FB1A86881F00371155 /* LoadingCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadingCell.xib; sourceTree = "<group>"; };
 		783011FFA8C53CC9EA7B6A4D /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		9A723AA81A7A91B80061F7D1 /* SimpleTweetCell_0img.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SimpleTweetCell_0img.xib; sourceTree = "<group>"; };
 		9A723AAA1A7A9AF10061F7D1 /* SimpleTweetCell_1img.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SimpleTweetCell_1img.xib; sourceTree = "<group>"; };
@@ -375,6 +377,7 @@
 				9A723AAA1A7A9AF10061F7D1 /* SimpleTweetCell_1img.xib */,
 				54A67C1C1A7F49650005A8F9 /* SimpleTweetCell_2img.xib */,
 				54A67C1E1A7F4B8E0005A8F9 /* SimpleTweetCell_4img.xib */,
+				54EDC0FB1A86881F00371155 /* LoadingCell.xib */,
 			);
 			name = Home;
 			sourceTree = "<group>";
@@ -491,6 +494,7 @@
 			files = (
 				9A723AA91A7A91B80061F7D1 /* SimpleTweetCell_0img.xib in Resources */,
 				9A723AAB1A7A9AF10061F7D1 /* SimpleTweetCell_1img.xib in Resources */,
+				54EDC0FC1A86881F00371155 /* LoadingCell.xib in Resources */,
 				5428F1E71A63813900C9AD4A /* TweetDetailViewController.xib in Resources */,
 				54CE888E1A601BC300107C1A /* Main.storyboard in Resources */,
 				54A67C1D1A7F49650005A8F9 /* SimpleTweetCell_2img.xib in Resources */,

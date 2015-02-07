@@ -16,8 +16,11 @@
 @property (nonatomic, readwrite) TwitterUser *loginUser;
 @property (nonatomic, strong) ACAccount *loginAccount;
 
+@property (nonatomic, strong) NSMutableArray *homeTimeLine;
+@property (nonatomic, strong) NSMutableArray *userTimeLine;
 
-@property (nonatomic, strong) NSMutableArray *tweets;
+@property (nonatomic, assign) BOOL loadingMore;
+
 @end
 
 @implementation HomeModel
@@ -36,7 +39,8 @@
         }];
 
         _timeLineType = HomeModelHomeTimeLine;
-        _tweets = [NSMutableArray array];
+        _homeTimeLine = [NSMutableArray array];
+        _userTimeLine = [NSMutableArray array];
     }
     return self;
 }
@@ -47,38 +51,104 @@
     [self retriveTweetsFromServer];
 }
 
+- (NSMutableArray *)timeLineArrayForType:(HomeModelTimeLineType)type
+{
+    if (type == HomeModelHomeTimeLine) {
+        return self.homeTimeLine;
+    } else {
+        return self.userTimeLine;
+    }
+
+}
+
+- (NSMutableArray *)currentTimeLine
+{
+    return [self timeLineArrayForType:self.timeLineType];
+}
+
 - (void)retriveTweetsFromServer
 {
-    [self retriveTweetPromise]
+    [self retriveTweetsFromServerForType:self.timeLineType];
+}
+
+- (void)retriveTweetsFromServerForType:(HomeModelTimeLineType)timeLineType
+{
+    [self retriveTweetPromiseForType:timeLineType olderThan:nil]
     .then(^(NSArray *json, NSHTTPURLResponse *response){
-        [self.tweets removeAllObjects];
-        for (NSDictionary *tweetDict in json) {
-            [self.tweets addObject:[[Tweet alloc] initWithDict:tweetDict]];
-        }
-        [self.delegate homeModel:self retriveTweetsCompleted:nil];
+        return [self mergeTweetsAndCallDelegatePromiseTweetForType:timeLineType
+                                                     newTweetsJSON:json];
     })
     .catch(^(NSError *error){
         [self.delegate homeModel:self retriveTweetsCompleted:error];
     });
-
 }
 
-- (PMKPromise *)retriveTweetPromise
+- (void)retriveMoreTweetsFromServer
 {
-    switch (self.timeLineType) {
+    [self retriveMoreTweetsFromServerForType:self.timeLineType];
+}
+
+- (void)retriveMoreTweetsFromServerForType:(HomeModelTimeLineType)timeLineType
+{
+    Tweet *oldestTweet = [[self timeLineArrayForType:timeLineType] lastObject];
+
+    self.loadingMore = YES;
+    [self retriveTweetPromiseForType:timeLineType olderThan:oldestTweet]
+    .then(^(NSArray *json, NSHTTPURLResponse *response){
+        return [self mergeTweetsAndCallDelegatePromiseTweetForType:timeLineType
+                                                     newTweetsJSON:json];
+    })
+    .catch(^(NSError *error){
+        [self.delegate homeModel:self retriveTweetsCompleted:error];
+    }).finally(^(){
+        self.loadingMore = NO;
+    });
+}
+
+- (PMKPromise *)retriveTweetPromiseForType:(HomeModelTimeLineType)type olderThan:(Tweet *)olderThan
+{
+    switch (type) {
         case HomeModelHomeTimeLine:
             return [TwitterClient getStatusesHomeTimelineForAccount:self.loginAccount
-                                                         screenName:self.loginUser.userID];
+                                                         screenName:self.loginUser.userID
+                                                              maxID:olderThan.ID];
             break;
         case HomeModelUserTimeLine:
             return [TwitterClient getStatusesUserTimelineForAccount:self.loginAccount
-                                                         screenName:self.loginUser.screenName];
+                                                         screenName:self.loginUser.screenName
+                                                              maxID:olderThan.ID];
             break;
     }
     return nil;
 }
 
-- (NSInteger)tweetsCount { return self.tweets.count; }
-- (Tweet *)tweetAtIndex:(NSInteger)index { return self.tweets[index]; }
+- (PMKPromise *)mergeTweetsAndCallDelegatePromiseTweetForType:(HomeModelTimeLineType)type newTweetsJSON:(NSArray *)json
+{
+    return [PMKPromise new:^(PMKPromiseFulfiller fulfill, PMKPromiseRejecter reject) {
+
+        NSMutableArray *array = [self timeLineArrayForType:type];
+
+        // add tweets
+        for (NSDictionary *tweetDict in json) {
+            Tweet *tweet = [[Tweet alloc] initWithDict:tweetDict];
+            if ([array containsObject:tweet] == NO) {
+                [array addObject:tweet];
+            }
+        }
+
+        // order by post date
+        [array sortUsingComparator:^NSComparisonResult(Tweet *tweet1, Tweet *tweet2 ) {
+            return [tweet2.createdAt compare:tweet1.createdAt];
+        }];
+
+        // call delegate
+        [self.delegate homeModel:self retriveTweetsCompleted:nil];
+
+    }];
+}
+
+
+- (NSInteger)tweetsCount { return [[self currentTimeLine] count]; }
+- (Tweet *)tweetAtIndex:(NSInteger)index { return [self currentTimeLine][index]; }
 
 @end

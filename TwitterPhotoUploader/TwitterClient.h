@@ -32,9 +32,11 @@
                                   mediaIDs:(NSString *)mediaIDs; // example: @"460938773744717825,460938773744717826"
 
 + (PMKPromise *)getStatusesUserTimelineForAccount:(ACAccount *)account
-                                       screenName:(NSString *)screenName;
+                                       screenName:(NSString *)screenName
+                                            maxID:(NSString *)maxID;
 
 + (PMKPromise *)getStatusesHomeTimelineForAccount:(ACAccount *)account
-                                       screenName:(NSString *)screenName;
+                                       screenName:(NSString *)screenName
+                                            maxID:(NSString *)maxID;
 
 @end

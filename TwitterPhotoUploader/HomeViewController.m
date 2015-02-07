@@ -63,6 +63,8 @@ UITableViewDelegate
          forCellReuseIdentifier:@"SimpleTweetCell_2img"];
     [self.tableView registerNib:[UINib nibWithNibName:@"SimpleTweetCell_4img" bundle:nil]
          forCellReuseIdentifier:@"SimpleTweetCell_4img"];
+    [self.tableView registerNib:[UINib nibWithNibName:@"LoadingCell" bundle:nil]
+         forCellReuseIdentifier:@"LoadingCell"];
 
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(handleRefresh:) forControlEvents:UIControlEventValueChanged];
@@ -114,43 +116,50 @@ UITableViewDelegate
 #pragma mark - TableView
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.homeModel.tweetsCount;
+    return self.homeModel.tweetsCount + 1; // tweets + loading
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Tweet *tweet = [self.homeModel tweetAtIndex:indexPath.row];
-    SimpleTweetCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SimpleTweetCell_0img"];
+    if ( indexPath.row < self.homeModel.tweetsCount ) {
+        Tweet *tweet = [self.homeModel tweetAtIndex:indexPath.row];
+        SimpleTweetCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SimpleTweetCell_0img"];
 
-    if (tweet.mediaList.count == 1) {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"SimpleTweetCell_1img"];
+        switch (tweet.mediaList.count) {
+            case 0:
+                cell = [tableView dequeueReusableCellWithIdentifier:@"SimpleTweetCell_0img"];
+                break;
+            case 1:
+                cell = [tableView dequeueReusableCellWithIdentifier:@"SimpleTweetCell_1img"];
+                break;
+            case 2:
+                cell = [tableView dequeueReusableCellWithIdentifier:@"SimpleTweetCell_2img"];
+                break;
+            case 3:
+            case 4:
+                cell = [tableView dequeueReusableCellWithIdentifier:@"SimpleTweetCell_4img"];
+                break;
+            default:
+                cell = [tableView dequeueReusableCellWithIdentifier:@"SimpleTweetCell_0img"];
+                break;
+        }
+
+        cell.tweet = tweet;
+        cell.delegate = self;
+        
+        [cell setNeedsLayout];
+        [cell layoutIfNeeded];
+        return cell;
+    } else {
+        return [tableView dequeueReusableCellWithIdentifier:@"LoadingCell"];
     }
+}
 
-    switch (tweet.mediaList.count) {
-        case 0:
-            cell = [tableView dequeueReusableCellWithIdentifier:@"SimpleTweetCell_0img"];
-            break;
-        case 1:
-            cell = [tableView dequeueReusableCellWithIdentifier:@"SimpleTweetCell_1img"];
-            break;
-        case 2:
-            cell = [tableView dequeueReusableCellWithIdentifier:@"SimpleTweetCell_2img"];
-            break;
-        case 3:
-        case 4:
-            cell = [tableView dequeueReusableCellWithIdentifier:@"SimpleTweetCell_4img"];
-            break;
-        default:
-            cell = [tableView dequeueReusableCellWithIdentifier:@"SimpleTweetCell_0img"];
-            break;
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row == self.homeModel.tweetsCount-1) { // last cell
+        [self.homeModel retriveMoreTweetsFromServer];
     }
-
-    cell.tweet = tweet;
-    cell.delegate = self;
-
-    [cell setNeedsLayout];
-    [cell layoutIfNeeded];
-    return cell;
 }
 
 #pragma mark - CellDelegate

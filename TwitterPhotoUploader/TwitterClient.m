@@ -145,20 +145,29 @@
 
 + (PMKPromise *)getStatusesUserTimelineForAccount:(ACAccount *)account
                                        screenName:(NSString *)screenName
+                                            maxID:(NSString *)maxID
 {
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"screen_name"] = screenName;
+    if (maxID) params[@"max_id"] = maxID;
+
     SLRequest *request = [self requestWithMethod:SLRequestMethodGET
                                         endpoint:@"statuses/user_timeline.json"
-                                      parameters:@{@"screen_name":screenName}];
+                                      parameters:params];
 
     return [self performRequset:request withGrantingToAccount:account];
 }
 
 + (PMKPromise *)getStatusesHomeTimelineForAccount:(ACAccount *)account
                                        screenName:(NSString *)screenName
+                                            maxID:(NSString *)maxID
 {
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    if (maxID) params[@"max_id"] = maxID;
+
     SLRequest *request = [self requestWithMethod:SLRequestMethodGET
                                         endpoint:@"statuses/home_timeline.json"
-                                      parameters:nil];
+                                      parameters:params];
 
     return [self performRequset:request withGrantingToAccount:account];
 }
