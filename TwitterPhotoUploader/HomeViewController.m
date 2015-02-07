@@ -29,6 +29,7 @@ UITableViewDelegate
 
 @property (nonatomic, strong) HomeModel *homeModel;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) UIRefreshControl *refreshControl;
 @property (nonatomic, strong) ImageViewerTweetDataSource *imageViewerCurrentDataSource;
 @end
 
@@ -62,6 +63,10 @@ UITableViewDelegate
          forCellReuseIdentifier:@"SimpleTweetCell_2img"];
     [self.tableView registerNib:[UINib nibWithNibName:@"SimpleTweetCell_4img" bundle:nil]
          forCellReuseIdentifier:@"SimpleTweetCell_4img"];
+
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(handleRefresh:) forControlEvents:UIControlEventValueChanged];
+    [self.tableView addSubview:self.refreshControl];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -103,6 +108,7 @@ UITableViewDelegate
     if (error == nil) {
         [self.tableView reloadData];
     }
+    [self.refreshControl endRefreshing];
 }
 
 #pragma mark - TableView
@@ -164,6 +170,11 @@ UITableViewDelegate
 }
 
 #pragma mark - User Interactions
+- (void)handleRefresh:(id)sender
+{
+    [self.homeModel retriveTweetsFromServer];
+}
+
 - (IBAction)accountButtonTapped:(id)sender
 {
     [self performSegueWithIdentifier:@"presentAccountSelection" sender:self];
