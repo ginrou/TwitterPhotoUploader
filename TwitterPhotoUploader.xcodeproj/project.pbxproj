@@ -583,7 +583,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./Fabric.framework/run 9acaf40a1e315481f95b2bbaa240d6f69e405ab5 b062a5f15a8281907eceebbe4bd358da8cc851962b1cd3bcf3538d34cad63395";
+			shellScript = "sh TwitterPhotoUploader/run_fabric.sh";
 		};
 		9E14418062EC44192E6FC698 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;

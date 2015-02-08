@@ -11,7 +11,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>$(PRODUCT_NAME)</string>
+	<string>TW Photo Uploader</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -23,7 +23,7 @@
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
-		<string>9acaf40a1e315481f95b2bbaa240d6f69e405ab5</string>
+		<string>cba389e5068a247f311d2eeacd85a60d17a5c880</string>
 		<key>Kits</key>
 		<array>
 			<dict>
