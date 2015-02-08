@@ -21,9 +21,16 @@
                     </activityIndicatorView>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="a9e-iR-Dj3" firstAttribute="top" secondItem="vkH-iY-ZWC" secondAttribute="top" constant="20" id="JoT-Mg-Qa6"/>
+                    <constraint firstAttribute="bottom" secondItem="a9e-iR-Dj3" secondAttribute="bottom" constant="19" id="KAa-Ms-SHl"/>
                     <constraint firstAttribute="centerY" secondItem="a9e-iR-Dj3" secondAttribute="centerY" id="fUt-vZ-19v"/>
                     <constraint firstAttribute="centerX" secondItem="a9e-iR-Dj3" secondAttribute="centerX" id="t4j-jl-ePh"/>
                 </constraints>
+                <variation key="default">
+                    <mask key="constraints">
+                        <exclude reference="fUt-vZ-19v"/>
+                    </mask>
+                </variation>
             </tableViewCellContentView>
             <point key="canvasLocation" x="325" y="248"/>
         </tableViewCell>
