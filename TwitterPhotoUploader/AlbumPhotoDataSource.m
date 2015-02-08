@@ -29,21 +29,15 @@
                                                                               subtype:PHAssetCollectionSubtypeSmartAlbumUserLibrary
                                                                               options:nil];
 
+        PHFetchOptions *options = [[PHFetchOptions alloc] init];
+        options.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO]];
         PHFetchResult *assetsResult = [PHAsset fetchAssetsInAssetCollection:fetchResult.firstObject
-                                                                    options:nil];
+                                                                    options:options];
 
         [assetsResult enumerateObjectsUsingBlock:^(PHAsset *asset, NSUInteger idx, BOOL *stop) {
 
             LocalImage *image = [LocalImage new];
             image.asset = asset;
-
-            [[PHImageManager defaultManager] requestImageDataForAsset:asset options:0 resultHandler:^(NSData *imageData, NSString *dataUTI, UIImageOrientation orientation, NSDictionary *info) {
-
-                image.dataUTI = dataUTI;
-                image.fileSize = imageData.length;
-
-            }];
-
             [_images addObject:image];
         }];
 

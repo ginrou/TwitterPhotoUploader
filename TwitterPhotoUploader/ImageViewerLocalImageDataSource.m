@@ -70,7 +70,7 @@
 
     NSError *uploadError = [[PhotoUploader sharedUploader] uploadErrorForImage:image];
     if (uploadError) {
-        NSString *errorDescription = NSLocalizedString(uploadError.userInfo[NSLocalizedDescriptionKey], nil);
+        NSString *errorDescription = NSLocalizedString(uploadError.localizedDescription, nil);
         return [NSString stringWithFormat:@"Upload Failed : \n%@", errorDescription];
     }
 

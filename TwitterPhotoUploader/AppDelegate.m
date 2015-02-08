@@ -9,6 +9,9 @@
 #import "AppDelegate.h"
 #import "WelcomeViewController.h"
 
+#import <Crashlytics/Crashlytics.h>
+#import <Fabric/Fabric.h>
+
 @interface AppDelegate ()
 
 @end
@@ -19,7 +22,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-
+    [Fabric with:@[CrashlyticsKit]];
     [WelcomeViewController blockUntilAllServiceReady:self.window onComplete:^(BOOL rootViewControllerChanged) {
         [self startWithMainStoryboard];
     }];
