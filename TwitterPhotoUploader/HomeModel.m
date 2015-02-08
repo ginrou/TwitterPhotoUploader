@@ -38,11 +38,37 @@
             }
         }];
 
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(defaultAccountChanged:)
+                                                     name:AccountDataStoreDefaultAccountChangedNotificationKey
+                                                   object:nil];
+
         _timeLineType = HomeModelHomeTimeLine;
         _homeTimeLine = [NSMutableArray array];
         _userTimeLine = [NSMutableArray array];
     }
     return self;
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)defaultAccountChanged:(NSNotification *)notification
+{
+    self.loginUser = [AccountDataStore loadDefaultTwitterAccount];
+
+    [[TwitterAccount accounts] enumerateObjectsUsingBlock:^(ACAccount *account, NSUInteger idx, BOOL *stop) {
+        if ([account.username isEqualToString:self.loginUser.screenName]) {
+            self.loginAccount = account;
+            *stop = YES;
+        }
+    }];
+
+    [self.homeTimeLine removeAllObjects];
+    [self.userTimeLine removeAllObjects];
+    [self retriveTweetsFromServer];
 }
 
 - (void)switchTimeLineType:(HomeModelTimeLineType)timeLineType

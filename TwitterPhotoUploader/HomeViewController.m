@@ -6,12 +6,15 @@
 //  Copyright (c) 2015年 Yuichi Takeda. All rights reserved.
 //
 
+@import QuartzCore;
+
 #import "HomeViewController.h"
 
 #import <SDWebImage/SDWebImageManager.h>
 
 #import "HomeModel.h"
 #import "SimpleTweetCell.h"
+#import "TwitterUserView.h"
 
 #import "ImageViewer.h"
 #import "ImageViewerTweetDataSource.h"
@@ -42,15 +45,7 @@ UITableViewDelegate
     self.homeModel.delegate = self;
     [self.homeModel switchTimeLineType:HomeModelHomeTimeLine];
 
-    [[SDWebImageManager sharedManager] downloadImageWithURL:self.homeModel.loginUser.profileImageURL options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
-
-        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
-        [button addTarget:self action:@selector(accountButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-        [button setImage:image forState:UIControlStateNormal];
-        UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithCustomView:button];
-        self.navigationItem.leftBarButtonItem = left;
-
-    }];
+    [self updateUserIcon];
 
     self.tableView.estimatedRowHeight = 100;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
@@ -76,6 +71,22 @@ UITableViewDelegate
     // Dispose of any resources that can be recreated.
 }
 
+- (void)updateUserIcon
+{
+    [[SDWebImageManager sharedManager] downloadImageWithURL:self.homeModel.loginUser.profileImageURL options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+
+        static const CGFloat size = 35.f;
+        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, size, size)];
+        [button addTarget:self action:@selector(accountButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+        [button setImage:image forState:UIControlStateNormal];
+        button.layer.cornerRadius = size * TwitterUserViewIconCornerRatio;
+        button.layer.masksToBounds = YES;
+
+        UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithCustomView:button];
+        self.navigationItem.leftBarButtonItem = left;
+        
+    }];
+}
 
 #pragma mark - Navigation
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -87,7 +98,8 @@ UITableViewDelegate
 
 - (IBAction)accountSelectionCompletedForSegue:(UIStoryboardSegue *)segue
 {
-    NSLog(@"First view return action invoked.");
+    [self updateUserIcon];
+    [self.tableView reloadData];
 }
 
 - (void)imageViewerCloseButtonTapped:(ImageViewer *)imageViewer

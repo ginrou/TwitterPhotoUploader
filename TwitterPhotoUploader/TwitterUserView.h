@@ -13,3 +13,6 @@
 @interface TwitterUserView : UIView
 @property (nonatomic, strong) TwitterUser *user;
 @end
+
+/// アイコンの一辺の長さに対する角丸の半径の割合
+FOUNDATION_EXPORT const CGFloat TwitterUserViewIconCornerRatio;

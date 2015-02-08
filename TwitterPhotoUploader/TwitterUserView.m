@@ -16,8 +16,9 @@
 @property (nonatomic, strong) IBOutlet UILabel *screenNameLabel;
 @property (nonatomic, strong) IBOutlet UILabel *nameLabel;
 @property (nonatomic, strong) IBOutlet UIImageView *iconImageView;
-
 @end
+
+const CGFloat TwitterUserViewIconCornerRatio = 0.15;
 
 @implementation TwitterUserView
 
@@ -42,7 +43,7 @@
     self.screenNameLabel.text = [NSString stringWithFormat:@"@%@", self.user.screenName];
     [self.iconImageView sd_setImageWithURL:self.user.profileImageURL];
 
-    [self.iconImageView.layer setCornerRadius:self.iconImageView.bounds.size.height * 0.2];
+    [self.iconImageView.layer setCornerRadius:self.iconImageView.bounds.size.height * TwitterUserViewIconCornerRatio];
     [self.iconImageView.layer setMasksToBounds:YES];
 }
 

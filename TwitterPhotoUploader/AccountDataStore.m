@@ -10,12 +10,19 @@
 
 static NSString *const kDefaultTwitterAccountKey = @"AccountDataStoreDefaultTwitterAccount";
 
+NSString * const AccountDataStoreDefaultAccountChangedNotificationKey = @"AccountDataStoreDefaultAccountChangedNotificationKey";
+
 @implementation AccountDataStore
 
 + (void)saveDefaultTwitterAccount:(TwitterUser *)user
 {
+    if ([user isEqual:[self loadDefaultTwitterAccount]]) return;
+
     [[NSUserDefaults standardUserDefaults] setObject:[user dictionaryRepresentation] forKey:kDefaultTwitterAccountKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:AccountDataStoreDefaultAccountChangedNotificationKey
+                                                        object:nil];
 }
 
 + (TwitterUser *)loadDefaultTwitterAccount

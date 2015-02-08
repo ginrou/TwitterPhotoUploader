@@ -16,3 +16,9 @@
 + (TwitterUser *)loadDefaultTwitterAccount;
 + (BOOL)defaultAccountSet;
 @end
+
+/**
+ デフォルトのログインアカウントが変更された時に通知されるNotificationのキー
+ */
+
+FOUNDATION_EXPORT NSString * const AccountDataStoreDefaultAccountChangedNotificationKey;
